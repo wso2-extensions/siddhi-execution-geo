@@ -55,10 +55,10 @@ public class GeocodeStreamFunctionProcessorTest {
         data.add(new Object[]{"duplication rd", "Regular", "Sun Nov 02 13:36:05 +0000 2014"});
 
         final List<Object[]> expectedResult = new ArrayList<Object[]>();
-        expectedResult.add(new Object[]{5.9461591d, 80.4978628d, "Gunasekara Mawatha, Matara, Sri Lanka"});
-        expectedResult.add(new Object[]{6.9955449d, 79.8832741d, "Hendala Road, Wattala, Sri Lanka"});
-        expectedResult.add(new Object[]{6.8390463d, 79.8646835d, "Mount Lavinia, Sri Lanka"});
-        expectedResult.add(new Object[]{6.8995244d, 79.8556202d, "R A De Mel Mawatha, Colombo, Sri Lanka"});
+        expectedResult.add(new Object[]{6.9916196d, 79.8931937d, "Gunasekara Mawatha, Wattala, Sri Lanka"});
+        expectedResult.add(new Object[]{6.9954258d, 79.8827281d, "Hendala Rd, Wattala, Sri Lanka"});
+        expectedResult.add(new Object[]{6.8301184d, 79.8800832d, "Dehiwala-Mount Lavinia, Sri Lanka"});
+        expectedResult.add(new Object[]{6.918263d, 79.8495415d, "Sri Uttarananda Mawatha, Colombo, Sri Lanka"});
 
 
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
