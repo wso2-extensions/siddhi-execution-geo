@@ -49,16 +49,16 @@ public class GeocodeStreamFunctionProcessorTest {
         LOGGER.info(String.format("Time to add query: [%f sec]", ((end - start) / 1000f)));
 
         List<Object[]> data = new ArrayList<Object[]>();
-        data.add(new Object[]{"gunasekara mawatha", "Regular", "Sun Nov 02 13:36:05 +0000 2014"});
-        data.add(new Object[]{"hendala road", "Regular", "Sun Nov 12 13:36:05 +0000 2014"});
-        data.add(new Object[]{"mt lavinia", "Regular", "Sun Nov 10 13:36:05 +0000 2014"});
-        data.add(new Object[]{"duplication rd", "Regular", "Sun Nov 02 13:36:05 +0000 2014"});
+        data.add(new Object[]{"Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France", "Regular", "Sun Nov 02 13:36:05 +0000 2014"});
+        data.add(new Object[]{"6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", "Sun Nov 12 13:36:05 +0000 2014"});
+        data.add(new Object[]{"Piazza del Colosseo, 1, 00184 Roma, Italy", "Sun Nov 10 13:36:05 +0000 2014"});
+        data.add(new Object[]{"Westminster, London SW1A 0AA, UK", "Regular", "Sun Nov 02 13:36:05 +0000 2014"});
 
         final List<Object[]> expectedResult = new ArrayList<Object[]>();
-        expectedResult.add(new Object[]{6.9916196d, 79.8931937d, "Gunasekara Mawatha, Wattala, Sri Lanka"});
-        expectedResult.add(new Object[]{6.9954258d, 79.8827281d, "Hendala Rd, Wattala, Sri Lanka"});
-        expectedResult.add(new Object[]{6.8301184d, 79.8800832d, "Dehiwala-Mount Lavinia, Sri Lanka"});
-        expectedResult.add(new Object[]{6.918263d, 79.8495415d, "Sri Uttarananda Mawatha, Colombo, Sri Lanka"});
+        expectedResult.add(new Object[]{48.8588871d, 2.2944861d, "5 Avenue Anatole France, 75007 Paris, France"});
+        expectedResult.add(new Object[]{48.85267d, 2.3492923d, "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France"});
+        expectedResult.add(new Object[]{41.8900275d, 12.4939171d, "Piazza del Colosseo, 1, 00184 Roma, Italy"});
+        expectedResult.add(new Object[]{51.4998403d, -0.1246627d, "Westminster, London SW1A 0AA, UK"});
 
 
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
