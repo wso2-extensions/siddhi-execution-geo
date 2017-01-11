@@ -72,8 +72,11 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
+                        <Private-Package>
+                            com.google.code.geocoder.*
+                        </Private-Package>
                         <Export-Package>
-                            org.wso2.extension.siddhi.execution.geo,
+                            !com.google.code.geocoder.*,
                             org.wso2.extension.siddhi.execution.geo.*
                         </Export-Package>
                         <Import-Package>
