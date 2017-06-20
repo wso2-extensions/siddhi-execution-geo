@@ -23,22 +23,33 @@ import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderRequest;
 import org.apache.log4j.Logger;
-import org.wso2.siddhi.core.config.ExecutionPlanContext;
-import org.wso2.siddhi.core.exception.ExecutionPlanCreationException;
-import org.wso2.siddhi.core.exception.ExecutionPlanRuntimeException;
+import org.wso2.siddhi.annotation.Example;
+import org.wso2.siddhi.annotation.Extension;
+import org.wso2.siddhi.core.config.SiddhiAppContext;
+import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
+import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
+import org.wso2.siddhi.core.util.config.ConfigReader;
 import org.wso2.siddhi.query.api.definition.AbstractDefinition;
 import org.wso2.siddhi.query.api.definition.Attribute;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This extension transforms a location into its geo-coordinates and formatted
  * address
  */
+@Extension(
+        name = "geocode",
+        namespace = "geo",
+        description = "Geo code stream function",
+        examples = @Example(description = "TBD", syntax = "TBD")
+)
 public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
 
     private static final Logger LOGGER = Logger.getLogger(GeocodeStreamFunctionProcessor.class);
@@ -90,7 +101,7 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
             }
 
         } catch (IOException e) {
-            throw new ExecutionPlanRuntimeException("Error in connection to Google Maps API.", e);
+            throw new SiddhiAppRuntimeException("Error in connection to Google Maps API.", e);
         }
 
         if (debugModeOn) {
@@ -99,6 +110,7 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
         }
         return new Object[]{formattedAddress, latitude, longitude};
     }
+
 
     /**
      * The init method of the StreamProcessor, this method will be called before other methods
@@ -109,10 +121,13 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
      * @return the additional output attributes introduced by the function
      */
     @Override
-    protected List<Attribute> init(AbstractDefinition inputDefinition, ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
+    protected List<Attribute> init(AbstractDefinition inputDefinition,
+                                   ExpressionExecutor[] attributeExpressionExecutors,
+                                   ConfigReader configReader,
+                                   SiddhiAppContext executionPlanContext) {
         debugModeOn = LOGGER.isDebugEnabled();
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanCreationException("First parameter should be of type string");
+            throw new SiddhiAppCreationException("First parameter should be of type string");
         }
         ArrayList<Attribute> attributes = new ArrayList<Attribute>(6);
         attributes.add(new Attribute("formattedAddress", Attribute.Type.STRING));
@@ -149,8 +164,8 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
      * @return stateful objects of the processing element as an array
      */
     @Override
-    public Object[] currentState() {
-        return new Object[0];
+    public Map<String, Object> currentState() {
+        return new HashMap<String, Object>();
     }
 
     /**
@@ -161,7 +176,9 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
      *              the same order provided by currentState().
      */
     @Override
-    public void restoreState(Object[] state) {
+    public void restoreState(Map<String, Object> state) {
 
     }
+
+
 }

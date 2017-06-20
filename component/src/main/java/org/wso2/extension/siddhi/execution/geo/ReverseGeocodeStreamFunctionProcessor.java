@@ -25,19 +25,24 @@ import com.google.code.geocoder.model.GeocoderAddressComponent;
 import com.google.code.geocoder.model.GeocoderRequest;
 import com.google.code.geocoder.model.LatLng;
 import org.apache.log4j.Logger;
-import org.wso2.siddhi.core.config.ExecutionPlanContext;
-import org.wso2.siddhi.core.exception.ExecutionPlanCreationException;
-import org.wso2.siddhi.core.exception.ExecutionPlanRuntimeException;
+import org.wso2.siddhi.annotation.Example;
+import org.wso2.siddhi.annotation.Extension;
+import org.wso2.siddhi.core.config.SiddhiAppContext;
+import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
+import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
+import org.wso2.siddhi.core.util.config.ConfigReader;
 import org.wso2.siddhi.query.api.definition.AbstractDefinition;
 import org.wso2.siddhi.query.api.definition.Attribute;
-import org.wso2.siddhi.query.api.exception.ExecutionPlanValidationException;
+import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This extension transforms a latitude and longitude coordinates into precise address information.
@@ -47,6 +52,12 @@ import java.util.List;
  * and longitude represent a place in a forest, only the high level information like country will be returned.
  * For those which are not available, this extension will return "N/A" as the value.
  */
+@Extension(
+        name = "reversegeocode",
+        namespace = "geo",
+        description = "Reverse Geocode stream function",
+        examples = @Example(description = "TBD", syntax = "TBD")
+)
 public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
 
     private static final Logger LOGGER = Logger.getLogger(ReverseGeocodeStreamFunctionProcessor.class);
@@ -62,10 +73,12 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
     @Override
     protected Object[] process(Object[] data) {
         if (data[0] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to geo:reversegeocode() function. The first argument cannot be null");
+            throw new SiddhiAppRuntimeException("Invalid input given" +
+                    " to geo:reversegeocode() function. The first argument cannot be null");
         }
         if (data[1] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to geo:reversegeocode() function. The second argument cannot be null");
+            throw new SiddhiAppRuntimeException("Invalid input given" +
+                    " to geo:reversegeocode() function. The second argument cannot be null");
         }
 
         BigDecimal latitude = new BigDecimal((Double) data[0]);
@@ -94,7 +107,8 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
 
             if (!geocoderResponse.getResults().isEmpty()) {
                 formattedAddress = geocoderResponse.getResults().get(0).getFormattedAddress();
-                List<GeocoderAddressComponent> addressComponents = geocoderResponse.getResults().get(0).getAddressComponents();
+                List<GeocoderAddressComponent> addressComponents = geocoderResponse
+                        .getResults().get(0).getAddressComponents();
                 for (GeocoderAddressComponent component : addressComponents) {
                     List<String> types = component.getTypes();
                     if (types.contains("street_number")) {
@@ -116,15 +130,19 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
                 }
             }
         } catch (IOException e) {
-            throw new ExecutionPlanRuntimeException("Error in connection to Google Maps API.", e);
+            throw new SiddhiAppRuntimeException("Error in connection to Google Maps API.", e);
         }
 
         if (debugModeOn) {
-            String message = String.format("Street Number: %s, Neighborhood: %s, Route: %s, Administrative Area Level 2: %s, Administrative Area Level 1: %s, Country: %s, ISO Country code: %s, Postal code: %s, Formatted address: %s", streetNumber, neighborhood,
-                    route, administrativeAreaLevelTwo, administrativeAreaLevelOne, country, countryCode, postalCode, formattedAddress);
+            String message = String.format("Street Number: %s, Neighborhood: %s," +
+                            " Route: %s, Administrative Area Level 2: %s, Administrative Area Level 1: %s, " +
+                            "Country: %s, ISO Country code: %s, Postal code: %s, Formatted address: %s",
+                    streetNumber, neighborhood, route, administrativeAreaLevelTwo,
+                    administrativeAreaLevelOne, country, countryCode, postalCode, formattedAddress);
             LOGGER.debug(message);
         }
-        return new Object[]{streetNumber, neighborhood, route, administrativeAreaLevelTwo, administrativeAreaLevelOne, country, countryCode, postalCode, formattedAddress};
+        return new Object[]{streetNumber, neighborhood, route, administrativeAreaLevelTwo, administrativeAreaLevelOne,
+                country, countryCode, postalCode, formattedAddress};
     }
 
     /**
@@ -147,14 +165,19 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
      * @return the additional output attributes introduced by the function
      */
     @Override
-    protected List<Attribute> init(AbstractDefinition inputDefinition, ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
+    protected List<Attribute> init(AbstractDefinition inputDefinition,
+                                   ExpressionExecutor[] attributeExpressionExecutors,
+                                   ConfigReader configReader,
+                                   SiddhiAppContext executionPlanContext) {
         debugModeOn = LOGGER.isDebugEnabled();
         if (attributeExpressionExecutors.length != 2) {
-            throw new ExecutionPlanValidationException("Invalid no of arguments passed to geo:reversegeocode() function, required 1, " +
+            throw new SiddhiAppValidationException("Invalid no of arguments " +
+                    "passed to geo:reversegeocode() function, required 1, " +
                     "but found " + attributeExpressionExecutors.length);
         }
-        if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.DOUBLE || attributeExpressionExecutors[1].getReturnType() != Attribute.Type.DOUBLE) {
-            throw new ExecutionPlanCreationException("Both input parameters should be of type double");
+        if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.DOUBLE ||
+                attributeExpressionExecutors[1].getReturnType() != Attribute.Type.DOUBLE) {
+            throw new SiddhiAppCreationException("Both input parameters should be of type double");
         }
         ArrayList<Attribute> attributes = new ArrayList<Attribute>(9);
         attributes.add(new Attribute("streetNumber", Attribute.Type.STRING));
@@ -197,8 +220,8 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
      * @return stateful objects of the processing element as an array
      */
     @Override
-    public Object[] currentState() {
-        return new Object[0];
+    public Map<String, Object> currentState() {
+        return new HashMap<String, Object>();
     }
 
     /**
@@ -208,8 +231,11 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
      * @param state the stateful objects of the element as an array on
      *              the same order provided by currentState().
      */
+
     @Override
-    public void restoreState(Object[] state) {
+    public void restoreState(Map<String, Object> state) {
 
     }
+
+
 }
