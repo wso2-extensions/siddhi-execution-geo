@@ -21,11 +21,11 @@
     <parent>
         <groupId>org.wso2.extension.siddhi.execution.geo</groupId>
         <artifactId>siddhi-execution-geo-parent</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>siddhi-execution-geo-feature</artifactId>
     <packaging>pom</packaging>
     <name>Siddhi Execution Extension - Geo Feature</name>
@@ -77,4 +77,5 @@
         <text.mapper.version>4.0.0-M5</text.mapper.version>
         <mavan.findbugsplugin.exclude.file>../findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
     </properties>
+
 </project>
