@@ -51,8 +51,7 @@ public class GeocodeStreamFunctionProcessorTest {
         LOGGER.info(String.format("Time to add query: [%f sec]", ((end - start) / 1000f)));
 
         List<Object[]> data = new ArrayList<Object[]>();
-        data.add(new Object[]{"Champ de Mars, 5 Avenue Anatole France," +
-                " 75007 Paris, France", "Regular", "Sun Nov 02 13:36:05 +0000 2014"});
+        data.add(new Object[]{"5 Avenue Anatole France, 75007 Paris, France"});
         data.add(new Object[]{"6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France",
                 "Sun Nov 12 13:36:05 +0000 2014"});
         data.add(new Object[]{"Piazza del Colosseo, 1, 00184 Roma, Italy", "Sun Nov 10 13:36:05 +0000 2014"});
