@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>${tentng.version}</version>
+            <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -91,7 +91,6 @@
 
     <properties>
         <text.mapper.version>4.0.0-M4</text.mapper.version>
-        <tentng.version>6.8</tentng.version>
         <mavan.findbugsplugin.exclude.file>../findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
     </properties>
 
