@@ -55,7 +55,7 @@ import java.util.Map;
                 description = "This will returns the longitude and latitude of the given location with the location" +
                         " details. so the results are 48.8588871d, 2.2944861d, \"5 Avenue Anatole France," +
                         " 75007 Paris, France\"",
-                syntax = "geocodeStream#geo:geocode(\"5 Avenue Anatole France, 75007 Paris, France\")"),
+                syntax = "geocode(\"5 Avenue Anatole France, 75007 Paris, France\")"),
         parameters = @Parameter(
                 name = "location",
                 description = "location details(Street name, number etc.)",
