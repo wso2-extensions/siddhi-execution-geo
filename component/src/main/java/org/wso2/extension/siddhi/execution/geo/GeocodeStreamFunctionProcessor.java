@@ -25,6 +25,9 @@ import com.google.code.geocoder.model.GeocoderRequest;
 import org.apache.log4j.Logger;
 import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
+import org.wso2.siddhi.annotation.Parameter;
+import org.wso2.siddhi.annotation.ReturnAttribute;
+import org.wso2.siddhi.annotation.util.DataType;
 import org.wso2.siddhi.core.config.SiddhiAppContext;
 import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
@@ -48,7 +51,30 @@ import java.util.Map;
         name = "geocode",
         namespace = "geo",
         description = "Geo code stream function",
-        examples = @Example(description = "TBD", syntax = "TBD")
+        examples = @Example(
+                description = "This will returns the longitude and latitude of the given location with the location" +
+                        " details. so the results are 48.8588871d, 2.2944861d, \"5 Avenue Anatole France," +
+                        " 75007 Paris, France\"",
+                syntax = "geocodeStream#geo:geocode(\"5 Avenue Anatole France, 75007 Paris, France\")"),
+        parameters = @Parameter(
+                name = "location",
+                description = "location details(Street name, number etc.)",
+                type = DataType.STRING
+        ),
+        returnAttributes = {
+                @ReturnAttribute(
+                        name = "longitude",
+                        description = "Longitude of the location", type = DataType.DOUBLE
+                ),
+                @ReturnAttribute(
+                        name = "latitude",
+                        description = "Latitude of the location", type = DataType.DOUBLE
+                ),
+                @ReturnAttribute(
+                        name = "address",
+                        description = "Location details", type = DataType.STRING
+                )
+        }
 )
 public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
 

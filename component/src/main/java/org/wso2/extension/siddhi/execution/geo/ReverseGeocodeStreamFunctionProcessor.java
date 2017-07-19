@@ -27,6 +27,8 @@ import com.google.code.geocoder.model.LatLng;
 import org.apache.log4j.Logger;
 import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
+import org.wso2.siddhi.annotation.Parameter;
+import org.wso2.siddhi.annotation.util.DataType;
 import org.wso2.siddhi.core.config.SiddhiAppContext;
 import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
@@ -55,8 +57,31 @@ import java.util.Map;
 @Extension(
         name = "reversegeocode",
         namespace = "geo",
-        description = "Reverse Geocode stream function",
-        examples = @Example(description = "TBD", syntax = "TBD")
+        description = "This extension transforms a latitude and longitude coordinates into precise address " +
+                "information. The output contains string properties streetNumber, neighborhood, route," +
+                " administrativeAreaLevelTwo, administrativeAreaLevelOne, country, countryCode, postalCode and" +
+                " formattedAddress in order. However, these information are not available for all the geo " +
+                "coordinates. For example, if the latitude and longitude represent a place in a forest, only the" +
+                " high level information like country will be returned. For those which are not available, this " +
+                "extension will return \"N/A\" as the value.",
+        examples = @Example(
+                description = "This will return the precise address information of the given location. On this case" +
+                        " this will return \"27\", \"N/A\", \"Palm Grove\", \"Colombo\", \"Western Province\"," +
+                        "                        \"Sri Lanka\", \"LK\", \"00300\", \"27 Palm Grove, Colombo 00300, " +
+                        "Sri Lanka\"",
+                syntax = "reversegeocode(6.909785, 79.852603)"),
+        parameters = {
+                @Parameter(
+                        name = "longitude",
+                        description = "longitude value of the required location",
+                        type = DataType.DOUBLE
+                ),
+                @Parameter(
+                        name = "latitude",
+                        description = "latitude value of the required location",
+                        type = DataType.DOUBLE
+                )
+        }
 )
 public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
 
