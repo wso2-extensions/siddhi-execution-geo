@@ -173,7 +173,8 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
             public void receive(Event[] events) {
                 EventPrinter.print(events);
                 AssertJUnit.assertArrayEquals(new Object[]{"N/A", "N/A", "N/A", "Caapiranga", "State of Amazonas",
-                        "Brazil", "BR", "N/A", "Caapiranga - State of Amazonas, Brazil"}, events[0].getData());
+                        "Brazil", "BR", "69410-000", "Caapiranga - State of Amazonas, 69410-000, Brazil"}, events[0]
+                        .getData());
             }
         });
         executionPlanRuntime.start();
