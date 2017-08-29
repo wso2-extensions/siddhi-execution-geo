@@ -1,4 +1,4 @@
-site_name: Siddhi Execution Extension - Geo
+site_name: Siddhi-Execution-Geo
 extra_css:
 - stylesheets/extra.css
 extra_javascript:
@@ -13,6 +13,6 @@ pages:
 - Welcome to Siddhi Execution Extension - Geo: index.md
 - License: license.md
 - API Docs:
-  - 4.0.1-SNAPSHOT: api/4.0.1-SNAPSHOT.md
   - 4.0.0-SNAPSHOT: api/4.0.0-SNAPSHOT.md
+  - 4.0.1-SNAPSHOT: api/4.0.1-SNAPSHOT.md
 theme: material
