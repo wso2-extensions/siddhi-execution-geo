@@ -30,7 +30,7 @@ directory.
 ```
      <dependency>
         <groupId>org.wso2.extension.siddhi.execution.geo</groupId>
-        <artifactId>siddhi-execution-geo-parent</artifactId>
+        <artifactId>siddhi-execution-geo</artifactId>
         <version>x.x.x</version>
      </dependency>
 ```
