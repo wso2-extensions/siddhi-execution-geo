@@ -20,20 +20,32 @@ package org.wso2.extension.siddhi.execution.geo;
 
 import org.apache.log4j.Logger;
 import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
+import org.wso2.siddhi.core.util.SiddhiTestHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GeocodeStreamFunctionProcessorTest {
 
     private static final Logger LOGGER = Logger.getLogger(GeocodeStreamFunctionProcessorTest.class);
     private static int eventCount = 0;
+    private AtomicInteger count = new AtomicInteger(0);
+    private volatile boolean eventArrived;
+
+    @BeforeMethod
+    public void init() {
+        count.set(0);
+        eventArrived = false;
+    }
+
 
     @Test
     public void testProcess() throws Exception {
@@ -69,10 +81,24 @@ public class GeocodeStreamFunctionProcessorTest {
             @Override
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
                 for (Event event : inEvents) {
+                    count.incrementAndGet();
                     Object[] expected = expectedResult.get(eventCount);
-                    AssertJUnit.assertEquals((Double) expected[0], (Double) event.getData(0), 1e-2);
-                    AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
-                    AssertJUnit.assertEquals(expected[2], event.getData(2));
+
+                    if (count.get() == 1) {
+                        AssertJUnit.assertEquals((Double) expected[0], (Double) event.getData(0), 1e-2);
+                        eventArrived = true;
+
+                    }
+                    if (count.get() == 2) {
+                        AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
+                        eventArrived = true;
+
+                    }
+                    if (count.get() == 3) {
+                        AssertJUnit.assertEquals(expected[2], event.getData(2));
+                        eventArrived = true;
+
+                    }
                     eventCount++;
                 }
             }
@@ -84,6 +110,9 @@ public class GeocodeStreamFunctionProcessorTest {
         for (Object[] dataLine : data) {
             inputHandler.send(dataLine);
         }
-        Thread.sleep(2000);
+        SiddhiTestHelper.waitForEvents(100, 4, count, 60000);
+        AssertJUnit.assertEquals(4, count.get());
+        AssertJUnit.assertTrue(eventArrived);
+
     }
 }
