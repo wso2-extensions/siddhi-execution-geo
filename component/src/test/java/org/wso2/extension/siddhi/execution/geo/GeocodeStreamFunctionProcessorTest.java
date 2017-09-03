@@ -86,15 +86,28 @@ public class GeocodeStreamFunctionProcessorTest {
 
                     if (count.get() == 1) {
                         AssertJUnit.assertEquals((Double) expected[0], (Double) event.getData(0), 1e-2);
+                        AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
+                        AssertJUnit.assertEquals(expected[2], event.getData(2));
                         eventArrived = true;
 
                     }
                     if (count.get() == 2) {
+                        AssertJUnit.assertEquals((Double) expected[0], (Double) event.getData(0), 1e-2);
                         AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
+                        AssertJUnit.assertEquals(expected[2], event.getData(2));
                         eventArrived = true;
 
                     }
                     if (count.get() == 3) {
+                        AssertJUnit.assertEquals((Double) expected[0], (Double) event.getData(0), 1e-2);
+                        AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
+                        AssertJUnit.assertEquals(expected[2], event.getData(2));
+                        eventArrived = true;
+
+                    }
+                    if (count.get() == 4) {
+                        AssertJUnit.assertEquals((Double) expected[0], (Double) event.getData(0), 1e-2);
+                        AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
                         AssertJUnit.assertEquals(expected[2], event.getData(2));
                         eventArrived = true;
 
