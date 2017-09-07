@@ -25,11 +25,11 @@ import org.testng.annotations.Test;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
+import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.stream.output.StreamCallback;
 import org.wso2.siddhi.core.util.EventPrinter;
 import org.wso2.siddhi.core.util.SiddhiTestHelper;
-import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,12 +63,10 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
             public void receive(Event[] events) {
                 EventPrinter.print(events);
                 count.incrementAndGet();
-                if (count.get() == 1) {
                     AssertJUnit.assertArrayEquals(new Object[]{"27", "N/A", "Palm Grove", "Colombo", "Western Province",
                                     "Sri Lanka", "LK", "00300", "27 Palm Grove, Colombo 00300, Sri Lanka"},
                             events[0].getData());
                     eventArrived = true;
-                }
             }
         });
         executionPlanRuntime.start();
@@ -100,13 +98,11 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
             public void receive(Event[] events) {
                 EventPrinter.print(events);
                 count.incrementAndGet();
-                if (count.get() == 1) {
                     AssertJUnit.assertArrayEquals(new Object[]{"67-53", "Flushing", "Loubet Street", "Queens County",
                                     "New York", "United States", "US", "11375", "67-53 Loubet St, Flushing, " +
                                     "NY 11375, USA"},
                             events[0].getData());
                     eventArrived = true;
-                }
             }
         });
         executionPlanRuntime.start();
@@ -138,12 +134,10 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
             public void receive(Event[] events) {
                 EventPrinter.print(events);
                 count.incrementAndGet();
-                if (count.get() == 1) {
-                    AssertJUnit.assertArrayEquals(new Object[]{"N/A", "N/A", "Westminster Bridge Road",
-                            "Greater London", "N/A", "United Kingdom", "GB", "SW1A", "Westminster Bridge Rd," +
-                            " London SW1A, UK"}, events[0].getData());
-                    eventArrived = true;
-                }
+                AssertJUnit.assertArrayEquals(new Object[]{"N/A", "N/A", "Westminster Bridge Road",
+                        "Greater London", "N/A", "United Kingdom", "GB", "SW1A", "Westminster Bridge Rd," +
+                        " London SW1A, UK"}, events[0].getData());
+                eventArrived = true;
             }
         });
         executionPlanRuntime.start();
@@ -175,14 +169,11 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
             public void receive(Event[] events) {
                 EventPrinter.print(events);
                 count.incrementAndGet();
-                if (count.get() == 1) {
-                    AssertJUnit.assertArrayEquals(new Object[]{"3", "N/A", "Thurstan Road", "Colombo",
-                            "Western Province",
-                            "Sri Lanka", "LK", "00700", "3 Thurstan Rd, Colombo 00700, Sri Lanka"},
-                            events[0].getData());
-                    eventArrived = true;
-
-                }
+                AssertJUnit.assertArrayEquals(new Object[]{"3", "N/A", "Thurstan Road", "Colombo",
+                                "Western Province",
+                                "Sri Lanka", "LK", "00700", "3 Thurstan Rd, Colombo 00700, Sri Lanka"},
+                        events[0].getData());
+                eventArrived = true;
             }
         });
         executionPlanRuntime.start();
@@ -265,7 +256,7 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
         executionPlanRuntime.shutdown();
     }
 
-    @Test(expectedExceptions = SiddhiAppValidationException.class)
+    @Test(expectedExceptions = SiddhiAppCreationException.class)
     public void testReverseGeocode7() throws Exception {
         LOGGER.info("Test Reverse Geocode 6 - Invalid number of input parameters");
 
@@ -278,7 +269,7 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
                 " insert into OutputStream");
     }
 
-    @Test(expectedExceptions = SiddhiAppValidationException.class)
+    @Test(expectedExceptions = SiddhiAppCreationException.class)
     public void testReverseGeocode8() throws Exception {
         LOGGER.info("Test Reverse Geocode 7 - Invalid type of input parameters");
 
