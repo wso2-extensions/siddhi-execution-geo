@@ -28,7 +28,7 @@
     <packaging>pom</packaging>
     <groupId>org.wso2.extension.siddhi.execution.geo</groupId>
     <artifactId>siddhi-execution-geo-parent</artifactId>
-    <version>4.0.2-SNAPSHOT</version>
+    <version>4.0.3-SNAPSHOT</version>
     <name>Siddhi Execution Extension - Geo Aggregator Pom</name>
 
 
