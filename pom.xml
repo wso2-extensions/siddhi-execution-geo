@@ -69,7 +69,7 @@
         <log4j.version>1.2.17.wso2v1</log4j.version>
         <geocoder.version>0.16_1</geocoder.version>
         <testng.version>6.8</testng.version>
-        <jacoco.version>0.7.8</jacoco.version>
+        <jacoco.version>0.7.9</jacoco.version>
 
         <mavan.findbugsplugin.exclude.file>findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
         <mavan.checkstyle.suppression.file>checkstyle-suppressions.xml</mavan.checkstyle.suppression.file>
