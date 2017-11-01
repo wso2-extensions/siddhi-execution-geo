@@ -206,9 +206,9 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
                 EventPrinter.print(events);
                 count.incrementAndGet();
                 if (count.get() == 1) {
-                    AssertJUnit.assertArrayEquals(new Object[]{"N/A", "N/A", "N/A", "Caapiranga", "State of Amazonas",
-                            "Brazil", "BR", "69410-000", "Caapiranga - State of Amazonas, 69410-000, Brazil"}, events[0]
-                            .getData());
+                    AssertJUnit.assertArrayEquals(new Object[]{"5", "N/A", "Avenue Anatole France", "Paris",
+                            "Île-de-France", "France", "FR", "75007", "5 Avenue Anatole France, 75007 Paris, France"},
+                            events[0].getData());
                     eventArrived = true;
 
                 }
@@ -217,7 +217,7 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
         executionPlanRuntime.start();
 
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("LocationStream");
-        inputHandler.send(new Object[]{"HTC-001", System.currentTimeMillis(), -3.250617, -62.124425});
+        inputHandler.send(new Object[]{"HTC-001", System.currentTimeMillis(), 48.8584, 2.2945});
         SiddhiTestHelper.waitForEvents(100, 1, count, 60000);
         AssertJUnit.assertEquals(1, count.get());
         AssertJUnit.assertTrue(eventArrived);
