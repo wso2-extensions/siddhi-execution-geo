@@ -11,7 +11,7 @@ Find some useful links below:
 
 ## Latest API Docs 
 
-Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/4.0.4">4.0.4</a>.
+Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/4.0.5">4.0.5</a>.
 
 ## How to use 
 
@@ -50,6 +50,8 @@ directory.
 
 ## Features
 
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/4.0.5/#geocode-stream-function">geocode</a> *(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#stream-function">(Stream Function)</a>)*<br><div style="padding-left: 1em;"><p>Geo code stream function</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/4.0.5/#reversegeocode-stream-function">reversegeocode</a> *(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#stream-function">(Stream Function)</a>)*<br><div style="padding-left: 1em;"><p>This extension transforms a latitude and longitude coordinates into precise address information. The output contains string properties streetNumber, neighborhood, route, administrativeAreaLevelTwo, administrativeAreaLevelOne, country, countryCode, postalCode and formattedAddress in order. However, these information are not available for all the geo coordinates. For example, if the latitude and longitude represent a place in a forest, only the high level information like country will be returned. For those which are not available, this extension will return "N/A" as the value.</p></div>
 
 ## How to Contribute
  
