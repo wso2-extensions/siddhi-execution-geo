@@ -70,7 +70,8 @@ public class GeocodeStreamFunctionProcessorTest {
         data.add(new Object[]{"Westminster, London SW1A 0AA, UK", "Regular", "Sun Nov 02 13:36:05 +0000 2014"});
 
         final List<Object[]> expectedResult = new ArrayList<Object[]>();
-        expectedResult.add(new Object[]{48.8588871d, 2.2944861d, "5 Avenue Anatole France, 75007 Paris, France"});
+        expectedResult.add(new Object[]{48.8588871d, 2.2944861d,
+                "Tour Eiffel, 5 Avenue Anatole France, 75007 Paris, France"});
         expectedResult.add(new Object[]{48.85267d, 2.3492923d, "6 Parvis Notre-Dame - Pl. Jean-Paul II," +
                 " 75004 Paris, France"});
         expectedResult.add(new Object[]{41.8900275d, 12.4939171d, "Piazza del Colosseo, 1, 00184 Roma RM, Italy"});

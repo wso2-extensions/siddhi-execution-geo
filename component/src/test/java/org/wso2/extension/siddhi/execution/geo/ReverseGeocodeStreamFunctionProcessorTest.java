@@ -207,7 +207,8 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
                 count.incrementAndGet();
                 if (count.get() == 1) {
                     AssertJUnit.assertArrayEquals(new Object[]{"5", "N/A", "Avenue Anatole France", "Paris",
-                            "Île-de-France", "France", "FR", "75007", "5 Avenue Anatole France, 75007 Paris, France"},
+                            "Île-de-France", "France", "FR", "75007", "Tour Eiffel, 5 Avenue Anatole France, " +
+                                    "75007 Paris, France"},
                             events[0].getData());
                     eventArrived = true;
 
