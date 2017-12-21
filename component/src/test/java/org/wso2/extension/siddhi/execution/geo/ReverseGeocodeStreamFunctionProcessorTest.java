@@ -134,16 +134,16 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
             public void receive(Event[] events) {
                 EventPrinter.print(events);
                 count.incrementAndGet();
-                AssertJUnit.assertArrayEquals(new Object[]{"N/A", "N/A", "Westminster Bridge Road",
-                        "Greater London", "N/A", "United Kingdom", "GB", "SW1A", "Westminster Bridge Rd," +
-                        " London SW1A, UK"}, events[0].getData());
+                AssertJUnit.assertArrayEquals(new Object[]{"10", "Westminster", "Great George Street",
+                        "Greater London", "England", "United Kingdom", "GB", "SW1P 3AE", "10 Great George St, " +
+                        "Westminster, London SW1P 3AE, UK"}, events[0].getData());
                 eventArrived = true;
             }
         });
         executionPlanRuntime.start();
 
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("LocationStream");
-        inputHandler.send(new Object[]{"HTC-001", System.currentTimeMillis(), 51.500861, -0.1228007});
+        inputHandler.send(new Object[]{"HTC-001", System.currentTimeMillis(), 51.50161, -0.127909});
         SiddhiTestHelper.waitForEvents(100, 1, count, 60000);
         AssertJUnit.assertEquals(1, count.get());
         AssertJUnit.assertTrue(eventArrived);
