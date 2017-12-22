@@ -23,6 +23,7 @@ import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderAddressComponent;
 import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.GeocoderStatus;
 import com.google.code.geocoder.model.LatLng;
 import org.apache.log4j.Logger;
 import org.wso2.siddhi.annotation.Example;
@@ -129,8 +130,8 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
 
         try {
             GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
-
-            if (!geocoderResponse.getResults().isEmpty()) {
+            GeocoderStatus status = geocoderResponse.getStatus();
+            if (status == GeocoderStatus.OK && !geocoderResponse.getResults().isEmpty()) {
                 formattedAddress = geocoderResponse.getResults().get(0).getFormattedAddress();
                 List<GeocoderAddressComponent> addressComponents = geocoderResponse
                         .getResults().get(0).getAddressComponents();
@@ -153,6 +154,8 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
                         postalCode = component.getLongName();
                     }
                 }
+            } else {
+                LOGGER.error("Geocoder request failed with a response of: " + status.value());
             }
         } catch (IOException e) {
             throw new SiddhiAppRuntimeException("Error in connection to Google Maps API.", e);

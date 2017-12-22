@@ -22,6 +22,7 @@ import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.GeocoderStatus;
 import org.apache.log4j.Logger;
 import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
@@ -113,8 +114,8 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
         String formattedAddress;
         try {
             GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
-
-            if (!geocoderResponse.getResults().isEmpty()) {
+            GeocoderStatus status = geocoderResponse.getStatus();
+            if (status == GeocoderStatus.OK && !geocoderResponse.getResults().isEmpty()) {
                 latitude = geocoderResponse.getResults().get(0).getGeometry().getLocation()
                         .getLat().doubleValue();
                 longitude = geocoderResponse.getResults().get(0).getGeometry().getLocation()
@@ -124,6 +125,7 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
                 latitude = -1.0;
                 longitude = -1.0;
                 formattedAddress = "N/A";
+                LOGGER.error("Geocoder request failed with a response of: " + status.value());
             }
 
         } catch (IOException e) {
