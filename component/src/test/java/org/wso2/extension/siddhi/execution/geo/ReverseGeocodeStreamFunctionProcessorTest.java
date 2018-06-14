@@ -66,8 +66,8 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
                 if (!events[0].getData()[0].equals("N/A")) {
                     // If default values returned skip assert since geocoder has not returned a response
                     // due to over query limit reached
-                    AssertJUnit.assertArrayEquals(new Object[]{"27", "N/A", "Palm Grove", "Colombo", "Western Province",
-                                    "Sri Lanka", "LK", "00300", "27 Palm Grove, Colombo 00300, Sri Lanka"},
+                    AssertJUnit.assertArrayEquals(new Object[]{"16", "N/A", "Palm Grove", "Colombo", "Western Province",
+                                    "Sri Lanka", "LK", "00300", "16 Palm Grove, Colombo 00300, Sri Lanka"},
                             events[0].getData());
                 }
                 eventArrived = true;
@@ -146,8 +146,8 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
                     // If default values returned skip assert since geocoder has not returned a response
                     // due to over query limit reached
                     AssertJUnit.assertArrayEquals(new Object[]{"10", "Westminster", "Great George Street",
-                            "Greater London", "England", "United Kingdom", "GB", "SW1P 3AE", "10 Great George St, " +
-                            "Westminster, London SW1P 3AE, UK"}, events[0].getData());
+                            "Greater London", "England", "United Kingdom", "GB", "N/A", "10 Great George St, " +
+                            "Westminster, London, UK"}, events[0].getData());
                 }
                 eventArrived = true;
             }
