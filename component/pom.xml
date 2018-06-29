@@ -52,6 +52,11 @@
             <artifactId>org.apache.servicemix.bundles.geocoder-java</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.wso2.carbon.datasources</groupId>
+            <artifactId>org.wso2.carbon.datasource.core</artifactId>
+            <version>${carbon.datasources.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.agent</artifactId>
             <classifier>runtime</classifier>
