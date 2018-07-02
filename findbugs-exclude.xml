@@ -17,4 +17,17 @@
   ~ under the License.
   -->
 
-<FindBugsFilter></FindBugsFilter>
+<FindBugsFilter>
+    <Match>
+        <Class name="org.wso2.extension.siddhi.execution.geo.internal.LRUCache"/>
+        <Bug pattern="SE_NO_SERIALVERSIONID"/>
+    </Match>
+    <Match>
+        <Class name="org.wso2.extension.siddhi.execution.geo.GetCityResolverFunction"/>
+        <Bug pattern="JLM_JSR166_UTILCONCURRENT_MONITORENTER"/>
+    </Match>
+    <Match>
+        <Class name="org.wso2.extension.siddhi.execution.geo.GetCountryResolverFunction"/>
+        <Bug pattern="JLM_JSR166_UTILCONCURRENT_MONITORENTER"/>
+    </Match>
+</FindBugsFilter>

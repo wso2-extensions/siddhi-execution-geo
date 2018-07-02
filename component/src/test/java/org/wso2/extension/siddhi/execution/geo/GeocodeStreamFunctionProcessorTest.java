@@ -71,7 +71,7 @@ public class GeocodeStreamFunctionProcessorTest {
 
         final List<Object[]> expectedResult = new ArrayList<Object[]>();
         expectedResult.add(new Object[]{48.8588871d, 2.2944861d,
-                "Tour Eiffel, 5 Avenue Anatole France, 75007 Paris, France"});
+                "5 Avenue Anatole France, 75007 Paris, France"});
         expectedResult.add(new Object[]{48.852968d, 2.349902d, "6 Parvis Notre-Dame - Pl. Jean-Paul II," +
                 " 75004 Paris, France"});
         expectedResult.add(new Object[]{41.8900275d, 12.4939171d, "Piazza del Colosseo, 1, 00184 Roma RM, Italy"});
