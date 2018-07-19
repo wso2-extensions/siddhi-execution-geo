@@ -10,15 +10,15 @@ repo_name: Siddhi-Execution-Geo
 repo_url: https://github.com/wso2-extensions/siddhi-execution-geo
 copyright: Copyright &copy; 2011 - 2018 WSO2
 theme:
-  name: 'material'
+  name: material
   logo: images/siddhi-logo-w.svg
   favicon: images/favicon.ico
   palette:
     primary: teal
     accent: teal
 google_analytics:
- - UA-103065-28
- - auto
+- UA-103065-28
+- auto
 extra:
   social:
   - type: github
@@ -26,12 +26,13 @@ extra:
   - type: linkedin
     link: https://www.linkedin.com/groups/13553064
 markdown_extensions:
-  - admonition
-  - toc(permalink=true)
-  - codehilite(guess_lang=false)
+- admonition
+- toc(permalink=true)
+- codehilite(guess_lang=false)
 pages:
 - Welcome: index.md
 - API Docs:
+  - 4.0.13: api/4.0.13.md
   - 4.0.12: api/4.0.12.md
   - 4.0.11: api/4.0.11.md
   - 4.0.10: api/4.0.10.md
