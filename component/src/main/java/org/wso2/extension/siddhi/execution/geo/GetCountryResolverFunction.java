@@ -45,22 +45,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Extension(
         name = "findCountryFromIP",
         namespace = "geo",
-        description = "Returns the country which is related to the give ip address",
+        description = "This function returns the country that is related to the given IP address.",
         parameters = {
                 @Parameter(
                         name = "ip",
-                        description = "The IP address that the user need to get the relevant country",
+                        description = "The IP address of which the related country needs to be fetched.",
                         type = {DataType.STRING})
         },
         returnAttributes = @ReturnAttribute(
-                description = "The country which is related to the given IP",
+                description = "The country related to the IP address provided.",
                 type = {DataType.STRING}),
         examples = @Example(
-                description = "This will return the corresponding country to the given ip address",
                 syntax = "define stream IpStream(ip string);\n" +
                         "from IpStream\n" +
                         "select geo:getCountry(ip) as country \n" +
-                        "insert into outputStream;")
+                        "insert into outputStream;",
+                description = "This query returns the corresponding country of the given IP address.")
 )
 public class GetCountryResolverFunction extends FunctionExecutor {
     private static final Log log = LogFactory.getLog(GetCountryResolverFunction.class);
