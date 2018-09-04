@@ -51,31 +51,35 @@ import java.util.Map;
 @Extension(
         name = "geocode",
         namespace = "geo",
-        description = "Geo code stream function",
-        examples = @Example(
-                description = "This will returns the longitude and latitude of the given location with the location" +
-                        " details. so the results are 48.8588871d, 2.2944861d, \"5 Avenue Anatole France," +
-                        " 75007 Paris, France\"",
-                syntax = "geocode(\"5 Avenue Anatole France, 75007 Paris, France\")"),
+        description = "The geo code stream function uses basic details relating to a location (e.g., street name," +
+                " number,etc.) as the input and returns the longitude, latitude, and the address of that location. ",
         parameters = @Parameter(
                 name = "location",
-                description = "location details(Street name, number etc.)",
+                description = "Location details(Street name, number etc.).",
                 type = DataType.STRING
         ),
         returnAttributes = {
                 @ReturnAttribute(
                         name = "longitude",
-                        description = "Longitude of the location", type = DataType.DOUBLE
+                        description = "The longitude of the location.", type = DataType.DOUBLE
                 ),
                 @ReturnAttribute(
                         name = "latitude",
-                        description = "Latitude of the location", type = DataType.DOUBLE
+                        description = "The latitude of the location.", type = DataType.DOUBLE
                 ),
                 @ReturnAttribute(
                         name = "address",
-                        description = "Location details", type = DataType.STRING
+                        description = "Location details.", type = DataType.STRING
                 )
-        }
+        },
+        examples = @Example(
+                syntax = "geocode(\"5 Avenue Anatole France, 75007 Paris, France\")",
+                description = "This query returns the longitude and latitude of the given location with the location" +
+                        " details. The expected results are 48.8588871d, 2.2944861d, \"5 Avenue Anatole France," +
+                        " 75007 Paris, France\""
+                )
+
+
 )
 public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
 
