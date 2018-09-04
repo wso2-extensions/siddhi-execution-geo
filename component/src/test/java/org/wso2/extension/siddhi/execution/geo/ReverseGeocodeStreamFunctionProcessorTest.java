@@ -185,10 +185,10 @@ public class ReverseGeocodeStreamFunctionProcessorTest {
                     // If default values returned skip assert since geocoder has not returned a response
                     // due to over query limit reached
                     AssertJUnit.assertArrayEquals(new Object[]{"1490", "N/A",
-                                                               "Colombo - Ratnapura - Wellawaya - Batticaloa Road",
+                                                               "Colombo - Ratnapura - Wellawaya - Batticaloa",
                                                                "Colombo", "Western Province",
                                                                "Sri Lanka", "LK", "00700",
-                                                               "1490 Colombo - Ratnapura - Wellawaya - Batticaloa Rd, "
+                                                               "1490 Colombo - Ratnapura - Wellawaya - Batticaloa, "
                                                                        + "Colombo 00700, Sri Lanka"},
                             events[0].getData());
                 }
