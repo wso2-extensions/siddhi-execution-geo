@@ -106,7 +106,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#api-docs-v4016" tabindex="1" class="md-skip">
+      <a href="#api-docs-v4017" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -275,6 +275,18 @@
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../4.0.17/" title="4.0.17" class="md-nav__link">
+      4.0.17
+    </a>
+  </li>
+
         
           
           
@@ -613,10 +625,10 @@
                   <a href="https://github.com/wso2-extensions/siddhi-execution-geo/edit/master/docs/api/latest.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="api-docs-v4016">API Docs - v4.0.16<a class="headerlink" href="#api-docs-v4016" title="Permanent link">&para;</a></h1>
+                <h1 id="api-docs-v4017">API Docs - v4.0.17<a class="headerlink" href="#api-docs-v4017" title="Permanent link">&para;</a></h1>
 <h2 id="geo">Geo<a class="headerlink" href="#geo" title="Permanent link">&para;</a></h2>
 <h3 id="findcityfromip-function">findCityFromIP <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a></em><a class="headerlink" href="#findcityfromip-function" title="Permanent link">&para;</a></h3>
-<p style="word-wrap: break-word">Returns the city which is related to the give ip address.</p>
+<p style="word-wrap: break-word">This function returns the city that is related to the give IP address.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
 <div class="codehilite"><pre><span></span>&lt;STRING&gt; geo:findCityFromIP(&lt;STRING&gt; ip)
@@ -635,7 +647,7 @@
     </tr>
     <tr>
         <td style="vertical-align: top">ip</td>
-        <td style="vertical-align: top; word-wrap: break-word">The IP address that the user need to get the relevant city</td>
+        <td style="vertical-align: top; word-wrap: break-word">The IP address of which the related city needs to be fetched.</td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">STRING</td>
         <td style="vertical-align: top">No</td>
@@ -651,10 +663,10 @@ insert into outputStream;
 </pre></div>
 
 
-<p style="word-wrap: break-word">This will return the corresponding city to the given ip address</p>
+<p style="word-wrap: break-word">This query returns the corresponding city of the given IP address.</p>
 
 <h3 id="findcountryfromip-function">findCountryFromIP <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a></em><a class="headerlink" href="#findcountryfromip-function" title="Permanent link">&para;</a></h3>
-<p style="word-wrap: break-word">Returns the country which is related to the give ip address</p>
+<p style="word-wrap: break-word">This function returns the country that is related to the given IP address.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
 <div class="codehilite"><pre><span></span>&lt;STRING&gt; geo:findCountryFromIP(&lt;STRING&gt; ip)
@@ -673,7 +685,7 @@ insert into outputStream;
     </tr>
     <tr>
         <td style="vertical-align: top">ip</td>
-        <td style="vertical-align: top; word-wrap: break-word">The IP address that the user need to get the relevant country</td>
+        <td style="vertical-align: top; word-wrap: break-word">The IP address of which the related country needs to be fetched.</td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">STRING</td>
         <td style="vertical-align: top">No</td>
@@ -689,10 +701,10 @@ insert into outputStream;
 </pre></div>
 
 
-<p style="word-wrap: break-word">This will return the corresponding country to the given ip address</p>
+<p style="word-wrap: break-word">This query returns the corresponding country of the given IP address.</p>
 
 <h3 id="geocode-stream-function">geocode <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#stream-function">(Stream Function)</a></em><a class="headerlink" href="#geocode-stream-function" title="Permanent link">&para;</a></h3>
-<p style="word-wrap: break-word">Geo code stream function</p>
+<p style="word-wrap: break-word">The geo code stream function uses basic details relating to a location (e.g., street name, number,etc.) as the input and returns the longitude, latitude, and the address of that location. </p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
 <div class="codehilite"><pre><span></span>geo:geocode(&lt;STRING&gt; location)
@@ -711,7 +723,7 @@ insert into outputStream;
     </tr>
     <tr>
         <td style="vertical-align: top">location</td>
-        <td style="vertical-align: top; word-wrap: break-word">location details(Street name, number etc.)</td>
+        <td style="vertical-align: top; word-wrap: break-word">Location details(Street name, number etc.).</td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">STRING</td>
         <td style="vertical-align: top">No</td>
@@ -727,17 +739,17 @@ insert into outputStream;
     </tr>
     <tr>
         <td style="vertical-align: top">longitude</td>
-        <td style="vertical-align: top; word-wrap: break-word">Longitude of the location</td>
+        <td style="vertical-align: top; word-wrap: break-word">The longitude of the location.</td>
         <td style="vertical-align: top">DOUBLE</td>
     </tr>
     <tr>
         <td style="vertical-align: top">latitude</td>
-        <td style="vertical-align: top; word-wrap: break-word">Latitude of the location</td>
+        <td style="vertical-align: top; word-wrap: break-word">The latitude of the location.</td>
         <td style="vertical-align: top">DOUBLE</td>
     </tr>
     <tr>
         <td style="vertical-align: top">address</td>
-        <td style="vertical-align: top; word-wrap: break-word">Location details</td>
+        <td style="vertical-align: top; word-wrap: break-word">Location details.</td>
         <td style="vertical-align: top">STRING</td>
     </tr>
 </table></p>
@@ -747,10 +759,10 @@ insert into outputStream;
 </pre></div>
 
 
-<p style="word-wrap: break-word">This will returns the longitude and latitude of the given location with the location details. so the results are 48.8588871d, 2.2944861d, "5 Avenue Anatole France, 75007 Paris, France"</p>
+<p style="word-wrap: break-word">This query returns the longitude and latitude of the given location with the location details. The expected results are 48.8588871d, 2.2944861d, "5 Avenue Anatole France, 75007 Paris, France"</p>
 
 <h3 id="reversegeocode-stream-function">reversegeocode <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#stream-function">(Stream Function)</a></em><a class="headerlink" href="#reversegeocode-stream-function" title="Permanent link">&para;</a></h3>
-<p style="word-wrap: break-word">This extension transforms a latitude and longitude coordinates into precise address information. The output contains string properties streetNumber, neighborhood, route, administrativeAreaLevelTwo, administrativeAreaLevelOne, country, countryCode, postalCode and formattedAddress in order. However, these information are not available for all the geo coordinates. For example, if the latitude and longitude represent a place in a forest, only the high level information like country will be returned. For those which are not available, this extension will return "N/A" as the value.</p>
+<p style="word-wrap: break-word">This extension transforms pairs of latitude and longitude coordinates into precise address information. The output contains string properties including the 'streetNumber', 'neighborhood', 'route', 'administrativeAreaLevelTwo', 'administrativeAreaLevelOne', 'country', 'countryCode', 'postalCode', and the 'formattedAddress' in the given order. However, this information is not available for all the geo coordinates. e.g., If the latitude and longitude represent a place in a forest, only the high level information such as the country is returned. In such scenarios, "N/A" is returned as the value for return attributes of which the values cannot be derived.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
 <div class="codehilite"><pre><span></span>geo:reversegeocode(&lt;DOUBLE&gt; longitude, &lt;DOUBLE&gt; latitude)
@@ -769,7 +781,7 @@ insert into outputStream;
     </tr>
     <tr>
         <td style="vertical-align: top">longitude</td>
-        <td style="vertical-align: top; word-wrap: break-word">longitude value of the required location</td>
+        <td style="vertical-align: top; word-wrap: break-word">The longitude value of the required location.</td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">DOUBLE</td>
         <td style="vertical-align: top">No</td>
@@ -777,7 +789,7 @@ insert into outputStream;
     </tr>
     <tr>
         <td style="vertical-align: top">latitude</td>
-        <td style="vertical-align: top; word-wrap: break-word">latitude value of the required location</td>
+        <td style="vertical-align: top; word-wrap: break-word">The latitude value of the required location.</td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">DOUBLE</td>
         <td style="vertical-align: top">No</td>
@@ -790,7 +802,7 @@ insert into outputStream;
 </pre></div>
 
 
-<p style="word-wrap: break-word">This will return the precise address information of the given location. On this case this will return "27", "N/A", "Palm Grove", "Colombo", "Western Province",                        "Sri Lanka", "LK", "00300", "27 Palm Grove, Colombo 00300, Sri Lanka"</p>
+<p style="word-wrap: break-word">This query returns the precise address information of the given location. In this example, it returns the following value:<br>&nbsp;"27", "N/A", "Palm Grove", "Colombo", "Western Province",                        "Sri Lanka", "LK", "00300", "27 Palm Grove, Colombo 00300, Sri Lanka"</p>
                 
                   
                 
