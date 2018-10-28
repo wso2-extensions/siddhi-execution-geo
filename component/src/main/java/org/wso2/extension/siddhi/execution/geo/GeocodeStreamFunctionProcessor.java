@@ -109,9 +109,7 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
         String location = data.toString();
 
         // Make the geocode request to API library
-        GeocoderRequest geocoderRequest = new GeocoderRequestBuilder()
-                .setAddress(location)
-                .setLanguage("en")
+        GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("en")
                 .getGeocoderRequest();
 
         double latitude, longitude;
