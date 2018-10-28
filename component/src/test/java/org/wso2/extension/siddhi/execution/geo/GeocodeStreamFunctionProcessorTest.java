@@ -77,14 +77,12 @@ public class GeocodeStreamFunctionProcessorTest {
         expectedResult.add(new Object[]{41.8900275d, 12.4939171d, "Piazza del Colosseo, 1, 00184 Roma RM, Italy"});
         expectedResult.add(new Object[]{51.4998403d, -0.1246627d, "Westminster, London SW1A 0AA, UK"});
 
-
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
                 for (Event event : inEvents) {
                     count.incrementAndGet();
                     Object[] expected = expectedResult.get(eventCount);
-
                     if (count.get() == 1) {
                         if ((Double) event.getData(0) != -1.0) {
                             // If default values returned skip assert since geocoder has not returned a response
@@ -94,7 +92,6 @@ public class GeocodeStreamFunctionProcessorTest {
                             AssertJUnit.assertEquals(expected[2], event.getData(2));
                         }
                         eventArrived = true;
-
                     }
                     if (count.get() == 2) {
                         if ((Double) event.getData(0) != -1.0) {
@@ -105,7 +102,6 @@ public class GeocodeStreamFunctionProcessorTest {
                             AssertJUnit.assertEquals(expected[2], event.getData(2));
                         }
                         eventArrived = true;
-
                     }
                     if (count.get() == 3) {
                         if ((Double) event.getData(0) != -1.0) {
@@ -116,7 +112,6 @@ public class GeocodeStreamFunctionProcessorTest {
                             AssertJUnit.assertEquals(expected[2], event.getData(2));
                         }
                         eventArrived = true;
-
                     }
                     if (count.get() == 4) {
                         if ((Double) event.getData(0) != -1.0) {
@@ -127,15 +122,12 @@ public class GeocodeStreamFunctionProcessorTest {
                             AssertJUnit.assertEquals(expected[2], event.getData(2));
                         }
                         eventArrived = true;
-
                     }
                     eventCount++;
                 }
             }
         });
-
         executionPlanRuntime.start();
-
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("geocodeStream");
         for (Object[] dataLine : data) {
             inputHandler.send(dataLine);
@@ -143,6 +135,6 @@ public class GeocodeStreamFunctionProcessorTest {
         SiddhiTestHelper.waitForEvents(100, 4, count, 60000);
         AssertJUnit.assertEquals(4, count.get());
         AssertJUnit.assertTrue(eventArrived);
-
+        executionPlanRuntime.shutdown();
     }
 }
