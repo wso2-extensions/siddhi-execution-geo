@@ -37,13 +37,15 @@ import java.nio.charset.StandardCharsets;
 public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
     private static final Log log = LogFactory.getLog(APIBasedGeoCoordinateResolver.class);
     private String temporary = null;
+    private String apikey;
 
     @Override
     public void init(ConfigReader configReader) {
+        apikey = configReader.getAllConfigs().get("key");
     }
 
     @Override
-    public GeoCoordinate getGeoCoordinateInfo(String key, String ip) {
+    public GeoCoordinate getGeoCoordinateInfo(String ip) {
         double latitude;
         double longitude;
         ip = ip.trim();
@@ -53,9 +55,9 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         }
         URL url;
         try {
-            url = new URL(key + ip);
+            url = new URL(apikey + ip);
         } catch (MalformedURLException e) {
-            throw new SiddhiAppRuntimeException ("Error", e);
+            throw new SiddhiAppRuntimeException ("Error in connection to the API", e);
         }
         try (
                 InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
@@ -70,7 +72,7 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
             latitude = Double.parseDouble(locationDetails[8]);
             longitude = Double.parseDouble(locationDetails[9]);
         } catch (IOException e) {
-            throw new SiddhiAppRuntimeException("Error", e);
+            throw new SiddhiAppRuntimeException("Error in connection to the API", e);
         }
         return new GeoCoordinate(latitude, longitude);
     }

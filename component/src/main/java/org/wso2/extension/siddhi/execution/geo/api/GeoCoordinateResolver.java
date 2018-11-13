@@ -28,12 +28,11 @@ public interface GeoCoordinateResolver {
     /**
      * This method will provide the geo location information related to the given ip.
      *
-     * @param key key
      * @param ip ip address
      * @return geo coordinate information related to given ip address
      */
 
-    public GeoCoordinate getGeoCoordinateInfo(String key, String ip);
+    public GeoCoordinate getGeoCoordinateInfo(String ip);
 
     /**
      * This method will be invoked after the initializing the extension. You can do any initial configuration here.
