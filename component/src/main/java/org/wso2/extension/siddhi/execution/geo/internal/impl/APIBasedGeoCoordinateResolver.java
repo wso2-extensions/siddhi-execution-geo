@@ -23,7 +23,6 @@ import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 import org.wso2.siddhi.core.util.config.ConfigReader;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -62,7 +61,6 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         try (
                 InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-
             String strTemp = null;
             String locationDetails[] = null;
             while (null != (strTemp = bufferedReader.readLine())) {

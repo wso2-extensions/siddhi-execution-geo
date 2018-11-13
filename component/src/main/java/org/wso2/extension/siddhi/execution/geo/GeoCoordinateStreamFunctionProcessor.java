@@ -40,15 +40,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
 /**
  * This class is to get longitude and latitude value of login location based on ip address.
  */
-
 @Extension(
         name = "geocoordinate",
         namespace = "geo",
-        description = "stream function",
+        description = "geocoordinate stream function returns the longitude and latitude" +
+                " values of a location which is related to the given IPV4 or IPV6 address.\"",
         parameters = {
                 @Parameter(
                         name = "ip",
@@ -78,7 +77,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 )
 
 public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcessor {
-
     private static final Log log = LogFactory.getLog(GeoCoordinateStreamFunctionProcessor.class);
     private static GeoCoordinateResolver geoCoordinateResolverImpl;
     private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
@@ -182,8 +180,6 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
     private void initializeExtensionConfigs(ConfigReader configReader) throws SiddhiAppValidationException {
         String geoResolverImplClassName = configReader.readConfig("geoCoordinateResolverClass",
                 DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME);
-
-
         try {
             geoCoordinateResolverImpl = (GeoCoordinateResolver) Class.forName
                     (geoResolverImplClassName).newInstance();

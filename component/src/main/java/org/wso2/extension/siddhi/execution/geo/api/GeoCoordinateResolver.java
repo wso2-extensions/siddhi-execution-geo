@@ -25,13 +25,13 @@ import org.wso2.siddhi.core.util.config.ConfigReader;
  * Interface for the GeoCoordinates based on the ip address.
  */
 public interface GeoCoordinateResolver {
+
     /**
      * This method will provide the geo location information related to the given ip.
      *
      * @param ip ip address
      * @return geo coordinate information related to given ip address
      */
-
     public GeoCoordinate getGeoCoordinateInfo(String ip);
 
     /**
