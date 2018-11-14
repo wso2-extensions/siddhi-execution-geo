@@ -17,8 +17,6 @@
  */
 package org.wso2.extension.siddhi.execution.geo;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
 import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
@@ -35,7 +33,7 @@ import org.wso2.siddhi.query.api.definition.AbstractDefinition;
 import org.wso2.siddhi.query.api.definition.Attribute;
 import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -77,7 +75,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 )
 
 public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcessor {
-    private static final Log log = LogFactory.getLog(GeoCoordinateStreamFunctionProcessor.class);
     private static GeoCoordinateResolver geoCoordinateResolverImpl;
     private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
             "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
@@ -127,7 +124,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
         if (!isExtensionConfigInitialized.get()) {
             initializeExtensionConfigs(configReader);
         }
-        ArrayList<Attribute> attributes = new ArrayList<Attribute>(6);
+        List<Attribute> attributes = new ArrayList<Attribute>(6);
         attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
         attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
         return attributes;
@@ -162,7 +159,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
      */
     @Override
     public Map<String, Object> currentState() {
-        return new HashMap<String, Object>();
+        return Collections.emptyMap();
     }
 
     /**

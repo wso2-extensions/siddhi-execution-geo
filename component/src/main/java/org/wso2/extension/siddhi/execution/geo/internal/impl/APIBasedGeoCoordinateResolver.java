@@ -17,8 +17,6 @@
  */
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
@@ -34,7 +32,6 @@ import java.nio.charset.StandardCharsets;
  * The default implementation of the GeoCoordinateResolver interface. This is implemented is based on API.
  */
 public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
-    private static final Log log = LogFactory.getLog(APIBasedGeoCoordinateResolver.class);
     private String temporary = null;
     private String apikey;
 
@@ -56,7 +53,8 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         try {
             url = new URL(apikey + ip);
         } catch (MalformedURLException e) {
-            throw new SiddhiAppRuntimeException ("Error in connection to the API", e);
+            throw new SiddhiAppRuntimeException ("Error in connection to the API " +
+                    "with the given key value of the API", e);
         }
         try (
                 InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
@@ -70,7 +68,8 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
             latitude = Double.parseDouble(locationDetails[8]);
             longitude = Double.parseDouble(locationDetails[9]);
         } catch (IOException e) {
-            throw new SiddhiAppRuntimeException("Error in connection to the API", e);
+            throw new SiddhiAppRuntimeException("Cannot retrieve longitute and latitude " +
+                    "due to error in connection to the API", e);
         }
         return new GeoCoordinate(latitude, longitude);
     }
