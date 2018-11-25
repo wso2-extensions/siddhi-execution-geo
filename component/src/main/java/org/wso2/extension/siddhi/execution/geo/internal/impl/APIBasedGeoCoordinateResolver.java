@@ -29,10 +29,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 /**
- * The default implementation of the GeoCoordinateResolver interface. This is implemented is based on API.
+ * The default implementation of the GeoCoordinateResolver interface. This implementation is based on API.
  */
 public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
-    private String temporary = null;
+    private String ipInformation = null;
     private String apikey;
 
     @Override
@@ -45,10 +45,6 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         double latitude;
         double longitude;
         ip = ip.trim();
-        if (ip.contains(",")) {
-            String locationDetails[] = ip.split(",");
-            ip = locationDetails[1].trim();
-        }
         URL url;
         try {
             url = new URL(apikey + ip);
@@ -59,12 +55,12 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         try (
                 InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-            String strTemp = null;
-            String locationDetails[] = null;
-            while (null != (strTemp = bufferedReader.readLine())) {
-                temporary = strTemp;
+            String ipData;
+            String locationDetails[];
+            while (null != (ipData = bufferedReader.readLine())) {
+                ipInformation = ipData;
             }
-            locationDetails = temporary.split(";");
+            locationDetails = ipInformation.split(";");
             latitude = Double.parseDouble(locationDetails[8]);
             longitude = Double.parseDouble(locationDetails[9]);
         } catch (IOException e) {
