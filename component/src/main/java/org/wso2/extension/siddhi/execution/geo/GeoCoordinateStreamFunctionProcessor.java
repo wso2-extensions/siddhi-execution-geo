@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         name = "geocoordinate",
         namespace = "geo",
         description = "geocoordinate stream function returns the longitude and latitude" +
-                " values of a location which is related to the given IPV4 or IPV6 address.\"",
+                " values of a location which is related to the given IPV4 or IPV6 address.",
         parameters = {
                 @Parameter(
                         name = "ip",
@@ -66,7 +66,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
                 )
         },
         examples = @Example(
-                description = "This will returns the longitude and latitude of the given IPV4 or IPV6 address. " +
+                description = "This will return the longitude and latitude of the given IPV4 or IPV6 address. " +
                         "So the results for the geocoordinate(95.31.18.119) are 55.7522, 37.6156",
                 syntax = "define stream IpStream(ip string); " +
                         "from IpStream#geo:geocoordinate(ip) " +

@@ -29,7 +29,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 /**
- * The default implementation of the GeoCoordinateResolver interface. This implementation is based on API.
+ * The default implementation of the GeoCoordinateResolver interface. This implementation is based on "ipInfoDB" API.
  */
 public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
     private String ipInformation = null;
@@ -49,7 +49,7 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         try {
             url = new URL(apikey + ip);
         } catch (MalformedURLException e) {
-            throw new SiddhiAppRuntimeException ("Error in connection to the API " +
+            throw new SiddhiAppRuntimeException ("Error in connecting to the API " +
                     "with the given key value of the API", e);
         }
         try (
