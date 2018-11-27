@@ -37,7 +37,7 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
 
     @Override
     public void init(ConfigReader configReader) {
-        apikey = configReader.getAllConfigs().get("key");
+        apikey = configReader.readConfig("apiurl", "");
     }
 
     @Override
@@ -55,17 +55,14 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         try (
                 InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-            String ipData;
+            ipInformation = bufferedReader.readLine();
             String locationDetails[];
-            while (null != (ipData = bufferedReader.readLine())) {
-                ipInformation = ipData;
-            }
             locationDetails = ipInformation.split(";");
             latitude = Double.parseDouble(locationDetails[8]);
             longitude = Double.parseDouble(locationDetails[9]);
         } catch (IOException e) {
             throw new SiddhiAppRuntimeException("Cannot retrieve longitute and latitude " +
-                    "due to error in connection to the API", e);
+                    "due to error in connecting to the API", e);
         }
         return new GeoCoordinate(latitude, longitude);
     }

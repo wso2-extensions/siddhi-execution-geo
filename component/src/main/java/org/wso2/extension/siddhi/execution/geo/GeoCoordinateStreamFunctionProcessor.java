@@ -124,7 +124,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
         if (!isExtensionConfigInitialized.get()) {
             initializeExtensionConfigs(configReader);
         }
-        List<Attribute> attributes = new ArrayList<Attribute>(6);
+        List<Attribute> attributes = new ArrayList<Attribute>(2);
         attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
         attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
         return attributes;
