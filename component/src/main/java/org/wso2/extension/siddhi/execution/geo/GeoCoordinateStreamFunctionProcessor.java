@@ -24,6 +24,7 @@ import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
 import org.wso2.siddhi.annotation.Parameter;
 import org.wso2.siddhi.annotation.ReturnAttribute;
+import org.wso2.siddhi.annotation.SystemParameter;
 import org.wso2.siddhi.annotation.util.DataType;
 import org.wso2.siddhi.core.config.SiddhiAppContext;
 import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
@@ -64,6 +65,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
                         name = "latitude",
                         description = "The latitude of the location " +
                                 "which is related to the given IP", type = DataType.DOUBLE
+                )
+        },
+        systemParameter = {
+                @SystemParameter(
+                        name = "apiurl",
+                        description = "ipInfoDB(https://www.ipinfodb.com/) provides an API to" +
+                                "get IP information from their IP address geolocation database." +
+                                "This API provides an url to get the information based on IP address",
+                        defaultValue = "N/A",
+                        possibleParameters = "N/A"
                 )
         },
         examples = @Example(
