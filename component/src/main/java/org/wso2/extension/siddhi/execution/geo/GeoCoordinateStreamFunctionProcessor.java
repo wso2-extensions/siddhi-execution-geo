@@ -99,7 +99,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
      */
     @Override
     protected Object[] process(Object[] data) {
-        return new Object[0];
+        return process(data[0]);
     }
 
     /**
