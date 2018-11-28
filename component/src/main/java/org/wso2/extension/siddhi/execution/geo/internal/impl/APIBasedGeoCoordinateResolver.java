@@ -17,8 +17,10 @@
  */
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
+import org.apache.log4j.Logger;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
+import org.wso2.extension.siddhi.execution.geo.internal.utils.Utilities;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 import org.wso2.siddhi.core.util.config.ConfigReader;
 import java.io.BufferedReader;
@@ -32,8 +34,10 @@ import java.nio.charset.StandardCharsets;
  * The default implementation of the GeoCoordinateResolver interface. This implementation is based on "ipInfoDB" API.
  */
 public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
-    private String ipInformation = null;
+    private static final Logger LOGGER = Logger.getLogger(APIBasedGeoCoordinateResolver.class);
     private String apikey;
+    private URL url;
+    private String locationDetails[];
 
     @Override
     public void init(ConfigReader configReader) {
@@ -45,9 +49,12 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         double latitude;
         double longitude;
         ip = ip.trim();
-        URL url;
         try {
-            url = new URL(apikey + ip);
+            if (Utilities.isIpAddress(ip)) {
+                url = new URL(apikey + ip);
+            } else {
+                LOGGER.error("The ip address is invalid");
+            }
         } catch (MalformedURLException e) {
             throw new SiddhiAppRuntimeException ("Error in connecting to the API " +
                     "with the given key value of the API", e);
@@ -55,9 +62,10 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         try (
                 InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-            ipInformation = bufferedReader.readLine();
-            String locationDetails[];
-            locationDetails = ipInformation.split(";");
+            String ipInformation;
+            while (null != (ipInformation = bufferedReader.readLine())) {
+                locationDetails = ipInformation.split(";");
+            }
             latitude = Double.parseDouble(locationDetails[8]);
             longitude = Double.parseDouble(locationDetails[9]);
         } catch (IOException e) {
