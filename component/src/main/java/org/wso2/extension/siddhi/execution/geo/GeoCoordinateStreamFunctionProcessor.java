@@ -27,7 +27,6 @@ import org.wso2.siddhi.annotation.ReturnAttribute;
 import org.wso2.siddhi.annotation.SystemParameter;
 import org.wso2.siddhi.annotation.util.DataType;
 import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
 import org.wso2.siddhi.core.util.config.ConfigReader;
@@ -135,8 +134,15 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
         if (!isExtensionConfigInitialized.get()) {
             initializeExtensionConfigs(configReader);
         }
-        if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-            throw new SiddhiAppCreationException("First parameter should be of type string");
+        if (attributeExpressionExecutors.length != 1) {
+            throw new SiddhiAppValidationException("Invalid no of arguments passed to geo:geocoordinate(ip) " +
+                    "function, required 1, but found " + attributeExpressionExecutors.length);
+        }
+        Attribute.Type attributeType = attributeExpressionExecutors[0].getReturnType();
+        if (attributeType != Attribute.Type.STRING) {
+            throw new SiddhiAppValidationException("Invalid parameter type found for first argument ip of " +
+                    "geo:geocoordinate(ip) function, required " + Attribute.Type.STRING + ", but found " + attributeType
+                    .toString());
         }
         List<Attribute> attributes = new ArrayList<Attribute>(2);
         attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
