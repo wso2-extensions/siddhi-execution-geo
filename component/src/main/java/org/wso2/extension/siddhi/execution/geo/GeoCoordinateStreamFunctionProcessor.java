@@ -18,8 +18,7 @@
 package org.wso2.extension.siddhi.execution.geo;
 
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
-import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
-import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
+import org.wso2.extension.siddhi.execution.geo.internal.impl.InitializeExtension;
 import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
 import org.wso2.siddhi.annotation.Parameter;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class is to get longitude and latitude value of login location based on ip address.
@@ -86,10 +84,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 )
 
 public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcessor {
-    private static GeoCoordinateResolver geoCoordinateResolverImpl;
-    private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
-            "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
-    private static AtomicBoolean isExtensionConfigInitialized = new AtomicBoolean(false);
 
     /**
      * The process method used when more than one function parameters are provided
@@ -111,7 +105,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
     @Override
     protected Object[] process(Object data) {
         String ip = data.toString();
-        GeoCoordinate geoCoordinate = geoCoordinateResolverImpl.getGeoCoordinateInfo(ip);
+        GeoCoordinate geoCoordinate = InitializeExtension.getInstance().getGeoCoordinateInfo(ip);
         return new Object[]{geoCoordinate.getLatitude(), geoCoordinate.getLongitude()};
     }
 
@@ -131,9 +125,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
     protected List<Attribute> init(AbstractDefinition inputDefinition,
                                    ExpressionExecutor[] attributeExpressionExecutors, ConfigReader configReader,
                                    SiddhiAppContext siddhiAppContext) {
-        if (!isExtensionConfigInitialized.get()) {
-            initializeExtensionConfigs(configReader);
-        }
+        InitializeExtension.getInstance().init(configReader);
         if (attributeExpressionExecutors.length != 1) {
             throw new SiddhiAppValidationException("Invalid no of arguments passed to geo:geocoordinate(ip) " +
                     "function, required 1, but found " + attributeExpressionExecutors.length);
@@ -192,31 +184,5 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
     @Override
     public void restoreState(Map<String, Object> state) {
 
-    }
-
-    private void initializeExtensionConfigs(ConfigReader configReader) throws SiddhiAppValidationException {
-        String geoResolverImplClassName = configReader.readConfig("geoCoordinateResolverClass",
-                DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME);
-        try {
-            geoCoordinateResolverImpl = (GeoCoordinateResolver) Class.forName
-                    (geoResolverImplClassName).newInstance();
-            geoCoordinateResolverImpl.init(configReader);
-            isExtensionConfigInitialized.set(true);
-        } catch (InstantiationException e) {
-            throw new SiddhiAppValidationException("Cannot instantiate GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
-        } catch (IllegalAccessException e) {
-            throw new SiddhiAppValidationException("Cannot access GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
-        } catch (ClassNotFoundException e) {
-            throw new SiddhiAppValidationException("Cannot find GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
-        } catch (ClassCastException e) {
-            throw new SiddhiAppValidationException("Cannot cast GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' to 'GeoCoordinateResolver'", e);
-        } catch (GeoLocationResolverException e) {
-            throw new SiddhiAppValidationException("Cannot initialize GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
-        }
     }
 }
