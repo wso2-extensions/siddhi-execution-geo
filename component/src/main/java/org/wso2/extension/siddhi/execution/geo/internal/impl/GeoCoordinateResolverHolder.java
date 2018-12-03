@@ -24,11 +24,11 @@ import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
  */
 public class GeoCoordinateResolverHolder {
 
+    private static final Object lock = new Object();
     private static GeoCoordinateResolverHolder geoCoordinateResolverHolder;
-    private GeoCoordinateResolver geoCoordinateResolver;
     private static String defaultGeocoordinateResolverClassname =
             "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
-    private static final Object lock = new Object();
+    private GeoCoordinateResolver geoCoordinateResolver;
 
     private GeoCoordinateResolverHolder() throws
             ClassNotFoundException, IllegalAccessException, InstantiationException {
