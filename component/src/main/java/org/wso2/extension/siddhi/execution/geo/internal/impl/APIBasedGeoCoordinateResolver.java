@@ -53,7 +53,7 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
             if (Utilities.isIpAddress(ip)) {
                 url = new URL(apikey + ip);
             } else {
-                LOGGER.error("The ip address is invalid");
+                LOGGER.error("The ip address : " + ip + " is invalid");
             }
         } catch (MalformedURLException e) {
             throw new SiddhiAppRuntimeException ("Error in connecting to the API " +
