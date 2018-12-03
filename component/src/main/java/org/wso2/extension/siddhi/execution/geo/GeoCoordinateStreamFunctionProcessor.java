@@ -88,25 +88,12 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
     private static GeoCoordinateResolver geoCoordinateResolverImpl;
     private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
             "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
-    //private static AtomicBoolean isExtensionConfigInitialized = new AtomicBoolean(false);
 
-    /**
-     * The process method used when more than one function parameters are provided
-     *
-     * @param data the data values for the function parameters
-     * @return the data for additional output attributes introduced by the function
-     */
     @Override
     protected Object[] process(Object[] data) {
         throw new IllegalStateException("geocoordinate cannot execute for single data ");
     }
 
-    /**
-     * The process method used when zero or one function parameter is provided
-     *
-     * @param data null if the function parameter count is zero or runtime data value of the function parameter
-     * @return the data for additional output attribute introduced by the function
-     */
     @Override
     protected Object[] process(Object data) {
         String ip = data.toString();
@@ -114,18 +101,6 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
         return new Object[]{geoCoordinate.getLatitude(), geoCoordinate.getLongitude()};
     }
 
-    /**
-     * The initialization method for {@link StreamFunctionProcessor},
-     * which will be called before other methods and validate
-     * the all configuration and getting the initial values.
-     *
-     * @param inputDefinition              the incoming stream definition
-     * @param attributeExpressionExecutors the executors of each function parameters
-     * @param configReader                 this hold the {@link StreamFunctionProcessor} extensions
-     *                                     configuration reader.
-     * @param siddhiAppContext             the context of the siddhi app
-     * @return the output's additional attributes list introduced by the function
-     */
     @Override
     protected List<Attribute> init(AbstractDefinition inputDefinition,
                                    ExpressionExecutor[] attributeExpressionExecutors, ConfigReader configReader,
@@ -147,45 +122,21 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
         return attributes;
     }
 
-    /**
-     * This will be called only once and this can be used to acquire
-     * required resources for the processing element.
-     * This will be called after initializing the system and before
-     * starting to process the events.
-     */
     @Override
     public void start() {
 
     }
 
-    /**
-     * This will be called only once and this can be used to release
-     * the acquired resources for processing.
-     * This will be called before shutting down the system.
-     */
     @Override
     public void stop() {
 
     }
 
-    /**
-     * Used to collect the serializable state of the processing element, that need to be
-     * persisted for reconstructing the element to the same state on a different point of time
-     *
-     * @return stateful objects of the processing element as an map
-     */
     @Override
     public Map<String, Object> currentState() {
         return null;
     }
 
-    /**
-     * Used to restore serialized state of the processing element, for reconstructing
-     * the element to the same state as if was on a previous point of time.
-     *
-     * @param state the stateful objects of the processing element as a map.
-     *              This is the same map that is created upon calling currentState() method.
-     */
     @Override
     public void restoreState(Map<String, Object> state) {
 
