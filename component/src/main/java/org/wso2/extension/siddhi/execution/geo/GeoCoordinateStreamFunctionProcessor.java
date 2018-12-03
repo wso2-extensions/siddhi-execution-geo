@@ -98,7 +98,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
      */
     @Override
     protected Object[] process(Object[] data) {
-        return process(data[0]);
+        throw new IllegalStateException("geocoordinate cannot execute for single data ");
     }
 
     /**
