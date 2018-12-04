@@ -18,16 +18,32 @@
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
+import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
 /**
  * A singleton class to initialize extension.
  */
 public class GeoCoordinateResolverHolder {
-
     private static final Object lock = new Object();
     private static GeoCoordinateResolverHolder geoCoordinateResolverHolder;
     private static String defaultGeocoordinateResolverClassname =
             "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
+
+    static {
+        try {
+            geoCoordinateResolverHolder = new GeoCoordinateResolverHolder();
+        } catch (InstantiationException e) {
+            throw new SiddhiAppValidationException("Cannot instantiate GeoCoordinateResolverHolder holder class '"
+                    + geoCoordinateResolverHolder , e);
+        } catch (IllegalAccessException e) {
+            throw new SiddhiAppValidationException("Cannot access GeoCoordinateResolverHolder holder class '"
+                    + geoCoordinateResolverHolder , e);
+        } catch (ClassNotFoundException e) {
+            throw new SiddhiAppValidationException("Cannot find GeoCoordinateResolverHolder holder class '"
+                    + geoCoordinateResolverHolder , e);
+        }
+    }
+
     private GeoCoordinateResolver geoCoordinateResolver;
 
     private GeoCoordinateResolverHolder() throws
@@ -36,25 +52,15 @@ public class GeoCoordinateResolverHolder {
                 (defaultGeocoordinateResolverClassname).newInstance();
     }
 
-    public static GeoCoordinateResolverHolder getGeoCoordinationResolverInstance(String geoResolverImplClassName)
-            throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    public static GeoCoordinateResolverHolder getGeoCoordinationResolverInstance(String geoResolverImplClassName) {
         if (geoCoordinateResolverHolder == null) {
             synchronized (lock) {
                 if (geoCoordinateResolverHolder == null) {
                     defaultGeocoordinateResolverClassname = geoResolverImplClassName;
-                    createInstance();
                 }
             }
         }
         return geoCoordinateResolverHolder;
-    }
-
-    private static void createInstance() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        synchronized (lock) {
-            if (geoCoordinateResolverHolder == null) {
-                geoCoordinateResolverHolder = new GeoCoordinateResolverHolder();
-            }
-        }
     }
 
     public GeoCoordinateResolver getGeoCoordinateResolver() {

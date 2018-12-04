@@ -150,18 +150,6 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
             geoCoordinateResolverImpl = GeoCoordinateResolverHolder.getGeoCoordinationResolverInstance
                     (geoResolverImplClassName).getGeoCoordinateResolver();
             geoCoordinateResolverImpl.init(configReader);
-        } catch (InstantiationException e) {
-            throw new SiddhiAppValidationException("Cannot instantiate GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
-        } catch (IllegalAccessException e) {
-            throw new SiddhiAppValidationException("Cannot access GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
-        } catch (ClassNotFoundException e) {
-            throw new SiddhiAppValidationException("Cannot find GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
-        } catch (ClassCastException e) {
-            throw new SiddhiAppValidationException("Cannot cast GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' to 'GeoCoordinateResolver'", e);
         } catch (GeoLocationResolverException e) {
             throw new SiddhiAppValidationException("Cannot initialize GeoCoordinateResolver implementation class '"
                     + geoResolverImplClassName + "' given in the configuration", e);
