@@ -37,8 +37,8 @@ public interface GeoCoordinateResolver {
     /**
      * This method will be invoked after the initializing the extension. You can do any initial configuration here.
      *
-     * @param configReader
-     * @throws GeoLocationResolverException
+     * @param configReader  this hold the extensions configuration reader
+     * @throws GeoLocationResolverException this will throws a GeoLocationResolverException.
      */
     public void init(ConfigReader configReader) throws GeoLocationResolverException;
 

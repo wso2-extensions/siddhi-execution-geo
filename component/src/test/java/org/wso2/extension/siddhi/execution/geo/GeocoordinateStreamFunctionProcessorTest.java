@@ -135,7 +135,8 @@ public class GeocoordinateStreamFunctionProcessorTest {
 
     }
 
-    @Test(expectedExceptions = SiddhiAppCreationException.class, dependsOnMethods = "geocoordinateStreamFunctionProcessorTest1")
+    @Test(expectedExceptions = SiddhiAppCreationException.class, dependsOnMethods =
+            "geocoordinateStreamFunctionProcessorTest1")
     public void geocoordinateStreamFunctionProcessorTest2() throws Exception {
         logger.info("Test Geocoordinate 2 - Invalid number of input parameters");
 
@@ -148,7 +149,8 @@ public class GeocoordinateStreamFunctionProcessorTest {
                         + "insert into outputStream");
     }
 
-    @Test(expectedExceptions = SiddhiAppCreationException.class, dependsOnMethods = "geocoordinateStreamFunctionProcessorTest2")
+    @Test(expectedExceptions = SiddhiAppCreationException.class, dependsOnMethods =
+            "geocoordinateStreamFunctionProcessorTest2")
     public void geocoordinateStreamFunctionProcessorTest3() throws Exception {
         logger.info("Test Geocoordinate 3 - Invalid type of input parameters");
 
