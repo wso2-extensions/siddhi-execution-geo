@@ -30,8 +30,6 @@ import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.SiddhiTestHelper;
 import org.wso2.siddhi.core.util.config.InMemoryConfigManager;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,14 +44,7 @@ public class GeocoordinateStreamFunctionProcessorTest {
     private AtomicInteger count = new AtomicInteger(0);
     private volatile boolean eventArrived;
     private static int eventCount = 0;
-    private static final String CARBON_HOME = "carbon.home";
 
-    private static void setCarbonHome() {
-        Path carbonHome = Paths.get("");
-        carbonHome = Paths.get(carbonHome.toString(), "src", "test");
-        System.setProperty(CARBON_HOME, carbonHome.toString());
-        logger.info("Carbon Home Absolute path set to: " + carbonHome.toAbsolutePath());
-    }
     @BeforeMethod
     public void init() {
         count.set(0);
@@ -68,7 +59,6 @@ public class GeocoordinateStreamFunctionProcessorTest {
     @Test
     public void geocoordinateStreamFunctionProcessorTest1() throws Exception {
         logger.info("Test Geocoordinate 1 - Test geocoordinates for given IP");
-        setCarbonHome();
         Map<String, String> masterConfigs = new HashMap<>();
         //The key value is a dummy value. You have to get a key value from ipInfoDB
         //(IpInfoDB : https://www.ipinfodb.com/ )
