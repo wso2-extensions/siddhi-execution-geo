@@ -62,11 +62,6 @@
             <classifier>runtime</classifier>
             <version>${jacoco.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.ws.wso2</groupId>
-            <artifactId>spring.framework</artifactId>
-            <version>3.2.9.wso2v1</version>
-        </dependency>
     </dependencies>
 
     <profiles>
