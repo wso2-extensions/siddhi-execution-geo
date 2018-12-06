@@ -28,6 +28,7 @@ import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
+import org.wso2.siddhi.core.util.SiddhiTestHelper;
 import org.wso2.siddhi.core.util.config.InMemoryConfigManager;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,13 +61,13 @@ public class GeocoordinateStreamFunctionProcessorTest {
     }
 
     /**
-     * Creating test for publishing events with https protocol.
+     * Creating test for Geocoordinate Stream Function.
      *
      * @throws Exception Interrupted exception
      */
     @Test
     public void geocoordinateStreamFunctionProcessorTest1() throws Exception {
-        logger.info("Test Geocoordinate 3 - Test geocoordinates for given IP");
+        logger.info("Test Geocoordinate 1 - Test geocoordinates for given IP");
         setCarbonHome();
         Map<String, String> masterConfigs = new HashMap<>();
         //The key value is a dummy value. You have to get a key value from ipInfoDB
@@ -90,12 +91,11 @@ public class GeocoordinateStreamFunctionProcessorTest {
         logger.info(String.format("Time to add query: [%f sec]", ((end - start) / 1000f)));
 
         List<Object[]> data = new ArrayList<Object[]>();
+        data.add(new Object[]{"2a01:7e00::f03c:91ff:fe44:6903"});
         data.add(new Object[]{"95.31.18.119"});
-        data.add(new Object[]{"72.229.28.185"});
-
         final List<Object[]> expectedResult = new ArrayList<Object[]>();
+        expectedResult.add(new Object[]{-0.12574, 51.50853d});
         expectedResult.add(new Object[]{37.6156d, 55.7522d});
-        expectedResult.add(new Object[]{-74.006d, 40.7143d});
         siddhiAppRuntime.addCallback("query", new QueryCallback() {
             @Override
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
@@ -130,6 +130,7 @@ public class GeocoordinateStreamFunctionProcessorTest {
         for (Object[] dataLine : data) {
             inputHandler.send(dataLine);
         }
+        SiddhiTestHelper.waitForEvents(100, 2, count, 60000);
         AssertJUnit.assertEquals(2, count.get());
         AssertJUnit.assertTrue(eventArrived);
 

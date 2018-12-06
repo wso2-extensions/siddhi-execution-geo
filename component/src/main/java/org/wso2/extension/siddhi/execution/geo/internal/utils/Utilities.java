@@ -17,32 +17,24 @@
  */
 package org.wso2.extension.siddhi.execution.geo.internal.utils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * This class provides validation method to validate IP addresses.
  */
 public class Utilities {
-    private static final Log log = LogFactory.getLog(Utilities.class);
-    private static Pattern validIpv4Pattern = null;
-    private static Pattern validIpv6Pattern = null;
-    private static final String ipv4Pattern =
-            "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
-    private static final String ipv6Pattern = "([0-9a-f]{1,4}:){7}([0-9a-f]){1,4}";
 
-    static {
-        try {
-            validIpv4Pattern = Pattern.compile(ipv4Pattern, Pattern.CASE_INSENSITIVE);
-            validIpv6Pattern = Pattern.compile(ipv6Pattern, Pattern.CASE_INSENSITIVE);
-        } catch (PatternSyntaxException e) {
-            log.error("Unable to compile pattern", e);
-        }
-    }
+    private static final Pattern IPV4_PATTERN =
+            Pattern.compile(
+                    "^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$");
+
+    private static final Pattern IPV6_STD_PATTERN =
+            Pattern.compile(
+                    "^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$");
+
+    private static final Pattern IPV6_HEX_COMPRESSED_PATTERN =
+            Pattern.compile(
+                    "^((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)$");
 
     /**
      * Determine if the given string is a valid IPv4 or IPv6 address.  This method
@@ -53,13 +45,10 @@ public class Utilities {
      * @return true if the string is a value that is a valid IP address,
      * false otherwise.
      */
-    public static boolean isIpAddress(String ipAddress) {
 
-        Matcher m1 = Utilities.validIpv4Pattern.matcher(ipAddress);
-        if (m1.matches()) {
-            return true;
-        }
-        Matcher m2 = Utilities.validIpv6Pattern.matcher(ipAddress);
-        return m2.matches();
+    public static boolean isIpAddress(String ipAddress) {
+        return (IPV4_PATTERN.matcher(ipAddress).matches() ||
+                IPV6_STD_PATTERN.matcher(ipAddress).matches() ||
+                IPV6_HEX_COMPRESSED_PATTERN.matcher(ipAddress).matches());
     }
 }
