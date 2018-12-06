@@ -19,6 +19,7 @@ limitations under the License.
         <classes>
             <class name="org.wso2.extension.siddhi.execution.geo.GeocodeStreamFunctionProcessorTest"/>
             <class name="org.wso2.extension.siddhi.execution.geo.ReverseGeocodeStreamFunctionProcessorTest"/>
+            <class name="org.wso2.extension.siddhi.execution.geo.GeocoordinateStreamFunctionProcessorTest"/>
         </classes>
     </test>
 </suite>
