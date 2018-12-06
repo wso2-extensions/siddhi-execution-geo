@@ -56,13 +56,7 @@ public class GeoCoordinateResolverHolder {
     }
 
     public static GeoCoordinateResolverHolder getGeoCoordinationResolverInstance(String geoResolverImplClassName) {
-        if (geoCoordinateResolverHolder == null) {
-            synchronized (lock) {
-                if (geoCoordinateResolverHolder == null) {
-                    defaultGeocoordinateResolverClassname = geoResolverImplClassName;
-                }
-            }
-        }
+        defaultGeocoordinateResolverClassname = geoResolverImplClassName;
         return geoCoordinateResolverHolder;
     }
 
