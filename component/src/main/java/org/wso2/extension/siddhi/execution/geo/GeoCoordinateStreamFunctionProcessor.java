@@ -144,15 +144,25 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
 
     }
 
-    private void initializeExtensionConfigs(ConfigReader configReader) throws SiddhiAppCreationException {
+    private void initializeExtensionConfigs(ConfigReader configReader)
+            throws SiddhiAppCreationException, SiddhiAppValidationException {
         String geoResolverImplClassName = configReader.readConfig("geoCoordinateResolverClass",
                 DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME);
         try {
-            geoCoordinateResolverImpl = GeoCoordinateResolverHolder.getGeoCoordinationResolverHolderInstance
-                    (geoResolverImplClassName).getGeoCoordinateResolver();
+            geoCoordinateResolverImpl = GeoCoordinateResolverHolder.
+                    getGeoCoordinationResolverHolderInstance().getGeoCoordinateResolver(geoResolverImplClassName);
             geoCoordinateResolverImpl.init(configReader);
+        } catch (InstantiationException e) {
+            throw new SiddhiAppValidationException("Cannot instantiate GeoCoordinateResolverHolder holder class '"
+                    + geoCoordinateResolverImpl , e);
+        } catch (IllegalAccessException e) {
+            throw new SiddhiAppValidationException("Cannot access GeoCoordinateResolverHolder holder class '"
+                    + geoCoordinateResolverImpl , e);
+        } catch (ClassNotFoundException e) {
+            throw new SiddhiAppValidationException("Cannot find GeoCoordinateResolverHolder holder class '"
+                    + geoCoordinateResolverImpl , e);
         } catch (GeoLocationResolverException e) {
-            throw new SiddhiAppCreationException("Configuration error of geocoordinate function properties ", e);
+            throw new SiddhiAppCreationException("Configuration error in geocoordinate stream function" , e);
         }
     }
 }
