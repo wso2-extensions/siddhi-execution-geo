@@ -148,7 +148,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
         String geoResolverImplClassName = configReader.readConfig("geoCoordinateResolverClass",
                 DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME);
         try {
-            geoCoordinateResolverImpl = GeoCoordinateResolverHolder.getGeoCoordinationResolverInstance
+            geoCoordinateResolverImpl = GeoCoordinateResolverHolder.getGeoCoordinationResolverHolderInstance
                     (geoResolverImplClassName).getGeoCoordinateResolver();
             geoCoordinateResolverImpl.init(configReader);
         } catch (GeoLocationResolverException e) {

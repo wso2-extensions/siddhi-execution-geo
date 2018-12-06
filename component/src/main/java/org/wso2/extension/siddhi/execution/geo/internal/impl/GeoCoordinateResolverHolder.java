@@ -55,7 +55,8 @@ public class GeoCoordinateResolverHolder {
                 (defaultGeocoordinateResolverClassname).newInstance();
     }
 
-    public static GeoCoordinateResolverHolder getGeoCoordinationResolverInstance(String geoResolverImplClassName) {
+    public static GeoCoordinateResolverHolder getGeoCoordinationResolverHolderInstance
+            (String geoResolverImplClassName) {
         defaultGeocoordinateResolverClassname = geoResolverImplClassName;
         return geoCoordinateResolverHolder;
     }
