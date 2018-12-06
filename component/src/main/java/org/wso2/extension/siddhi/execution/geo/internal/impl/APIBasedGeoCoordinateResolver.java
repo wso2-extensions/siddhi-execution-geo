@@ -18,8 +18,10 @@
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
 import org.apache.log4j.Logger;
+import org.wso2.carbon.utils.StringUtils;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
+import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
 import org.wso2.extension.siddhi.execution.geo.internal.utils.Utilities;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 import org.wso2.siddhi.core.util.config.ConfigReader;
@@ -41,8 +43,11 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
     private String locationDetails[];
 
     @Override
-    public void init(ConfigReader configReader) {
+    public void init(ConfigReader configReader) throws GeoLocationResolverException {
         apikey = configReader.readConfig("apiurl", "");
+        if (StringUtils.isNullOrEmpty(apikey)) {
+            throw new GeoLocationResolverException("Error in reading the configuration of apiurl");
+        }
     }
 
     @Override
@@ -58,7 +63,7 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
             }
         } catch (MalformedURLException e) {
             throw new SiddhiAppRuntimeException("Error in connecting to the API " +
-                    "with the given key value of the API", e);
+                    "with the given key value of the API");
         }
         try (InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {

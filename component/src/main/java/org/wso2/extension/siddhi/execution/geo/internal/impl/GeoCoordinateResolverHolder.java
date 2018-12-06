@@ -18,6 +18,7 @@
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
+import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
 import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
 /**
@@ -41,13 +42,15 @@ public class GeoCoordinateResolverHolder {
         } catch (ClassNotFoundException e) {
             throw new SiddhiAppValidationException("Cannot find GeoCoordinateResolverHolder holder class '"
                     + geoCoordinateResolverHolder , e);
+        } catch (GeoLocationResolverException e) {
+            throw new SiddhiAppValidationException("Configuration error in geocoordinate stream function" , e);
         }
     }
 
     private GeoCoordinateResolver geoCoordinateResolver;
 
     private GeoCoordinateResolverHolder() throws
-            ClassNotFoundException, IllegalAccessException, InstantiationException {
+            ClassNotFoundException, IllegalAccessException, InstantiationException, GeoLocationResolverException {
         geoCoordinateResolver = (GeoCoordinateResolver) Class.forName
                 (defaultGeocoordinateResolverClassname).newInstance();
     }

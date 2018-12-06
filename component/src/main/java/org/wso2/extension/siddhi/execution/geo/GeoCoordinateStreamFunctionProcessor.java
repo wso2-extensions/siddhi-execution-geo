@@ -28,6 +28,7 @@ import org.wso2.siddhi.annotation.ReturnAttribute;
 import org.wso2.siddhi.annotation.SystemParameter;
 import org.wso2.siddhi.annotation.util.DataType;
 import org.wso2.siddhi.core.config.SiddhiAppContext;
+import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
 import org.wso2.siddhi.core.util.config.ConfigReader;
@@ -143,7 +144,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
 
     }
 
-    private void initializeExtensionConfigs(ConfigReader configReader) throws SiddhiAppValidationException {
+    private void initializeExtensionConfigs(ConfigReader configReader) throws SiddhiAppRuntimeException {
         String geoResolverImplClassName = configReader.readConfig("geoCoordinateResolverClass",
                 DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME);
         try {
@@ -151,8 +152,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
                     (geoResolverImplClassName).getGeoCoordinateResolver();
             geoCoordinateResolverImpl.init(configReader);
         } catch (GeoLocationResolverException e) {
-            throw new SiddhiAppValidationException("Cannot initialize GeoCoordinateResolver implementation class '"
-                    + geoResolverImplClassName + "' given in the configuration", e);
+            throw new SiddhiAppRuntimeException("Configuration error of geocoordinate function properties ", e);
         }
     }
 }
