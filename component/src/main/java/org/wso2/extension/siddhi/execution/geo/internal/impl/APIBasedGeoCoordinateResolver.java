@@ -68,7 +68,7 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
         try (InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
             String ipInformation;
-            while (null != (ipInformation = bufferedReader.readLine())) {
+            while ((ipInformation = bufferedReader.readLine()) != null) {
                 locationDetails = ipInformation.split(";");
             }
             latitude = Double.parseDouble(locationDetails[8]);
