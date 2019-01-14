@@ -55,7 +55,7 @@ import java.util.Map;
                 " number,etc.) as the input and returns the longitude, latitude, and the address of that location. ",
         parameters = @Parameter(
                 name = "location",
-                description = "Location details(Street name, number etc.).",
+                description = "The basic location details. For example the Street name, number etc..",
                 type = DataType.STRING
         ),
         returnAttributes = {
@@ -69,17 +69,17 @@ import java.util.Map;
                 ),
                 @ReturnAttribute(
                         name = "address",
-                        description = "Location details.", type = DataType.STRING
+                        description = "The location details including the longitude and the latitude " +
+                                "of the location.",
+                        type = DataType.STRING
                 )
         },
         examples = @Example(
                 syntax = "geocode(\"5 Avenue Anatole France, 75007 Paris, France\")",
                 description = "This query returns the longitude and latitude of the given location with the location" +
                         " details. The expected results are 48.8588871d, 2.2944861d, \"5 Avenue Anatole France," +
-                        " 75007 Paris, France\""
+                        " 75007 Paris, France\"."
                 )
-
-
 )
 public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
 
