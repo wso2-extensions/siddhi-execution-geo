@@ -62,18 +62,19 @@ import java.util.Map;
                 "information. The output contains string properties including the 'streetNumber', 'neighborhood'," +
                 " 'route', 'administrativeAreaLevelTwo', 'administrativeAreaLevelOne', 'country', 'countryCode'," +
                 " 'postalCode', and the 'formattedAddress' in the given order. However, this information is not " +
-                "available for all the geo coordinates. e.g., If the latitude and longitude represent a place in a" +
-                " forest, only the high level information such as the country is returned. In such scenarios, " +
-                "\"N/A\" is returned as the value for return attributes of which the values cannot be derived.",
+                "available for all the geo coordinates. For example, if the latitude and longitude represent a " +
+                "place in a forest, only the high level information such as the country is returned. " +
+                "In such scenarios, \"N/A\" is returned as the value for return attributes of which the" +
+                " values cannot be derived.",
         parameters = {
                 @Parameter(
                         name = "longitude",
-                        description = "The longitude value of the required location.",
+                        description = "The longitude value required in order to derive at the location.",
                         type = DataType.DOUBLE
                 ),
                 @Parameter(
                         name = "latitude",
-                        description = "The latitude value of the required location.",
+                        description = "The latitude value required in order to derive at the location.",
                         type = DataType.DOUBLE
                 )
         },
@@ -82,8 +83,8 @@ import java.util.Map;
                 description = "This query returns the precise address information of the given location. In this " +
                         "example, it returns the following value:\n" +
                         " \"27\", \"N/A\", \"Palm Grove\", \"Colombo\", \"Western Province\"," +
-                        "                        \"Sri Lanka\", \"LK\", \"00300\", \"27 Palm Grove, Colombo 00300, " +
-                        "Sri Lanka\"")
+                        " \"Sri Lanka\", \"LK\", \"00300\", \"27 Palm Grove, Colombo 00300, " +
+                        "Sri Lanka\".")
 
 )
 public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcessor {

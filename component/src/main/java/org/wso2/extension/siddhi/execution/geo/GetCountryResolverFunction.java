@@ -59,8 +59,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
                 syntax = "define stream IpStream(ip string);\n" +
                         "from IpStream\n" +
                         "select geo:getCountry(ip) as country \n" +
-                        "insert into outputStream;",
-                description = "This query returns the corresponding country of the given IP address.")
+                        "insert into OutputStream;",
+                description = "This query returns the country corresponding to the given IP address.")
 )
 public class GetCountryResolverFunction extends FunctionExecutor {
     private static final Log log = LogFactory.getLog(GetCountryResolverFunction.class);

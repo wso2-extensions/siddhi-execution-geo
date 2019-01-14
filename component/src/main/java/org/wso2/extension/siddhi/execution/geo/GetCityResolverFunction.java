@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Extension(
         name = "findCityFromIP",
         namespace = "geo",
-        description = "This function returns the city that is related to the give IP address.",
+        description = "This function returns the city that is related to the given IP address.",
         parameters = {
                 @Parameter(
                         name = "ip",

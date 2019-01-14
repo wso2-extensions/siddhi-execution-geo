@@ -46,46 +46,45 @@ import java.util.Map;
 @Extension(
         name = "geocoordinate",
         namespace = "geo",
-        description = "geocoordinate stream function returns the longitude and latitude" +
-                " values of a location which is related to the given IPV4 or IPV6 address.",
+        description = "The geocoordinate stream function returns the longitude and latitude" +
+                " values of a location relating to a given IPV4 or IPV6 address.",
         parameters = {
                 @Parameter(
                         name = "ip",
-                        description = "The IP address that the user need " +
-                                "to get the longitude and latitude",
+                        description = "The IP address for which the user needs the longitude and latitude values.",
                         type = {DataType.STRING})
         },
         returnAttributes = {
                 @ReturnAttribute(
                         name = "longitude",
-                        description = "The longitude of the location " +
-                                "which is related to the given IP", type = DataType.DOUBLE
+                        description = "The longitude of the location corresponding to the given IP.",
+                        type = DataType.DOUBLE
                 ),
                 @ReturnAttribute(
                         name = "latitude",
-                        description = "The latitude of the location " +
-                                "which is related to the given IP", type = DataType.DOUBLE
+                        description = "The latitude of the location corresponding to the given IP.",
+                        type = DataType.DOUBLE
                 )
         },
         systemParameter = {
                 @SystemParameter(
                         name = "apiurl",
                         description = "ipInfoDB(https://www.ipinfodb.com/) provides an API to" +
-                                "get IP information from their IP address geolocation database." +
-                                "This API provides an url to get the information based on IP address",
+                                "get information relating to an IP address based on their geolocation database." +
+                                "This API provides a URL to get the latitude and longitude of a given" +
+                                " IP address.",
                         defaultValue = "N/A",
                         possibleParameters = "N/A"
                 )
         },
         examples = @Example(
-                description = "This will return the longitude and latitude of the given IPV4 or IPV6 address. " +
-                        "So the results for the geocoordinate(95.31.18.119) are 55.7522, 37.6156",
                 syntax = "define stream IpStream(ip string); " +
                         "from IpStream#geo:geocoordinate(ip) " +
                         "select latitude, longitude " +
-                        "insert into outputStream;")
+                        "insert into OutputStream;",
+                description = "This returns the longitude and the latitude of the given IPV4 or IPV6 address. " +
+                        "The results for the geocoordinate(95.31.18.119) are 55.7522 and 37.6156.")
 )
-
 public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcessor {
     private static GeoCoordinateResolver geoCoordinateResolverImpl;
     private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
