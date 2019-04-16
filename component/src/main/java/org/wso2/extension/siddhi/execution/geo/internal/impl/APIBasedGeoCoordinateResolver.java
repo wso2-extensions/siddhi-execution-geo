@@ -17,14 +17,14 @@
  */
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
+import io.siddhi.core.exception.SiddhiAppRuntimeException;
+import io.siddhi.core.util.config.ConfigReader;
 import org.apache.log4j.Logger;
 import org.wso2.carbon.utils.StringUtils;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
 import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
 import org.wso2.extension.siddhi.execution.geo.internal.utils.Utilities;
-import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
-import org.wso2.siddhi.core.util.config.ConfigReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -18,13 +18,13 @@
 
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
+import io.siddhi.core.util.config.ConfigReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.extension.siddhi.execution.geo.api.Location;
 import org.wso2.extension.siddhi.execution.geo.internal.LRUCache;
 import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
 import org.wso2.extension.siddhi.execution.geo.internal.utils.DatabaseUtils;
-import org.wso2.siddhi.core.util.config.ConfigReader;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;

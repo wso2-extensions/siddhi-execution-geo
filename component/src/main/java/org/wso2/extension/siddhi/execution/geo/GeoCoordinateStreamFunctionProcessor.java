@@ -17,28 +17,29 @@
  */
 package org.wso2.extension.siddhi.execution.geo;
 
+import io.siddhi.annotation.Example;
+import io.siddhi.annotation.Extension;
+import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ReturnAttribute;
+import io.siddhi.annotation.SystemParameter;
+import io.siddhi.annotation.util.DataType;
+import io.siddhi.core.config.SiddhiQueryContext;
+import io.siddhi.core.exception.SiddhiAppCreationException;
+import io.siddhi.core.executor.ExpressionExecutor;
+import io.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
+import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.snapshot.state.State;
+import io.siddhi.core.util.snapshot.state.StateFactory;
+import io.siddhi.query.api.definition.AbstractDefinition;
+import io.siddhi.query.api.definition.Attribute;
+import io.siddhi.query.api.exception.SiddhiAppValidationException;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinate;
 import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
 import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
 import org.wso2.extension.siddhi.execution.geo.internal.impl.GeoCoordinateResolverHolder;
-import org.wso2.siddhi.annotation.Example;
-import org.wso2.siddhi.annotation.Extension;
-import org.wso2.siddhi.annotation.Parameter;
-import org.wso2.siddhi.annotation.ReturnAttribute;
-import org.wso2.siddhi.annotation.SystemParameter;
-import org.wso2.siddhi.annotation.util.DataType;
-import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
-import org.wso2.siddhi.core.executor.ExpressionExecutor;
-import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
-import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.query.api.definition.AbstractDefinition;
-import org.wso2.siddhi.query.api.definition.Attribute;
-import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class is to get longitude and latitude value of login location based on ip address.
@@ -85,7 +86,7 @@ import java.util.Map;
                 description = "This returns the longitude and the latitude of the given IPV4 or IPV6 address. " +
                         "The results for the geocoordinate(95.31.18.119) are 55.7522 and 37.6156.")
 )
-public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcessor {
+public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcessor<State> {
     private static GeoCoordinateResolver geoCoordinateResolverImpl;
     private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
             "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
@@ -103,9 +104,11 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
     }
 
     @Override
-    protected List<Attribute> init(AbstractDefinition inputDefinition,
-                                   ExpressionExecutor[] attributeExpressionExecutors, ConfigReader configReader,
-                                   SiddhiAppContext siddhiAppContext) {
+    protected StateFactory<State> init(AbstractDefinition abstractDefinition,
+                                       ExpressionExecutor[] attributeExpressionExecutors,
+                                       ConfigReader configReader,
+                                       boolean outputExpectsExpiredEvents,
+                                       SiddhiQueryContext siddhiQueryContext) {
         initializeExtensionConfigs(configReader);
         if (attributeExpressionExecutors.length != 1) {
             throw new SiddhiAppValidationException("Invalid no of arguments passed to geo:geocoordinate(ip) " +
@@ -117,10 +120,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
                     "geo:geocoordinate(ip) function, required " + Attribute.Type.STRING + ", but found " + attributeType
                     .toString());
         }
-        List<Attribute> attributes = new ArrayList<Attribute>(2);
-        attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
-        attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
-        return attributes;
+        return null;
     }
 
     @Override
@@ -130,16 +130,6 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
 
     @Override
     public void stop() {
-
-    }
-
-    @Override
-    public Map<String, Object> currentState() {
-        return null;
-    }
-
-    @Override
-    public void restoreState(Map<String, Object> state) {
 
     }
 
@@ -163,5 +153,13 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
         } catch (GeoLocationResolverException e) {
             throw new SiddhiAppCreationException("Configuration error in geocoordinate stream function" , e);
         }
+    }
+
+    @Override
+    public List<Attribute> getReturnAttributes() {
+        List<Attribute> attributes = new ArrayList<Attribute>(2);
+        attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
+        attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
+        return attributes;
     }
 }

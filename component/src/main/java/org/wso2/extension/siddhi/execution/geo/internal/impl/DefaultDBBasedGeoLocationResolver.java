@@ -18,12 +18,12 @@
 
 package org.wso2.extension.siddhi.execution.geo.internal.impl;
 
+import io.siddhi.core.util.config.ConfigReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.extension.siddhi.execution.geo.api.GeoLocationResolver;
 import org.wso2.extension.siddhi.execution.geo.api.Location;
 import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
-import org.wso2.siddhi.core.util.config.ConfigReader;
 
 /**
  * The default implementation of the GeoLocationResolver interface. This is implemented based on RDBMS.
