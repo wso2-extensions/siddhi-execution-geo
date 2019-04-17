@@ -86,6 +86,7 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor<Stat
     private static final Logger LOGGER = Logger.getLogger(GeocodeStreamFunctionProcessor.class);
     private final Geocoder geocoder = new Geocoder();
     private boolean debugModeOn;
+    private ArrayList<Attribute> attributes = new ArrayList<Attribute>(6);
 
     /**
      * The process method of the StreamFunction, used when more then one function parameters are provided
@@ -161,6 +162,9 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor<Stat
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
             throw new SiddhiAppCreationException("First parameter should be of type string");
         }
+        attributes.add(new Attribute("formattedAddress", Attribute.Type.STRING));
+        attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
+        attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
         return null;
     }
 
@@ -187,10 +191,6 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor<Stat
 
     @Override
     public List<Attribute> getReturnAttributes() {
-        ArrayList<Attribute> attributes = new ArrayList<Attribute>(6);
-        attributes.add(new Attribute("formattedAddress", Attribute.Type.STRING));
-        attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
-        attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
         return attributes;
     }
 }

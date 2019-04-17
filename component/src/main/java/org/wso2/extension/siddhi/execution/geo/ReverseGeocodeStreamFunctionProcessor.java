@@ -92,6 +92,7 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
     private static final Logger LOGGER = Logger.getLogger(ReverseGeocodeStreamFunctionProcessor.class);
     private final Geocoder geocoder = new Geocoder();
     private boolean debugModeOn;
+    private ArrayList<Attribute> attributes = new ArrayList<Attribute>(9);
 
     /**
      * The process method of the StreamFunction, used when more then one function parameters are provided
@@ -212,6 +213,15 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
                 attributeExpressionExecutors[1].getReturnType() != Attribute.Type.DOUBLE) {
             throw new SiddhiAppCreationException("Both input parameters should be of type double");
         }
+        attributes.add(new Attribute("streetNumber", Attribute.Type.STRING));
+        attributes.add(new Attribute("neighborhood", Attribute.Type.STRING));
+        attributes.add(new Attribute("route", Attribute.Type.STRING));
+        attributes.add(new Attribute("administrativeAreaLevelTwo", Attribute.Type.STRING));
+        attributes.add(new Attribute("administrativeAreaLevelOne", Attribute.Type.STRING));
+        attributes.add(new Attribute("country", Attribute.Type.STRING));
+        attributes.add(new Attribute("countryCode", Attribute.Type.STRING));
+        attributes.add(new Attribute("postalCode", Attribute.Type.STRING));
+        attributes.add(new Attribute("formattedAddress", Attribute.Type.STRING));
         return null;
     }
 
@@ -238,16 +248,6 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
 
     @Override
     public List<Attribute> getReturnAttributes() {
-        ArrayList<Attribute> attributes = new ArrayList<Attribute>(9);
-        attributes.add(new Attribute("streetNumber", Attribute.Type.STRING));
-        attributes.add(new Attribute("neighborhood", Attribute.Type.STRING));
-        attributes.add(new Attribute("route", Attribute.Type.STRING));
-        attributes.add(new Attribute("administrativeAreaLevelTwo", Attribute.Type.STRING));
-        attributes.add(new Attribute("administrativeAreaLevelOne", Attribute.Type.STRING));
-        attributes.add(new Attribute("country", Attribute.Type.STRING));
-        attributes.add(new Attribute("countryCode", Attribute.Type.STRING));
-        attributes.add(new Attribute("postalCode", Attribute.Type.STRING));
-        attributes.add(new Attribute("formattedAddress", Attribute.Type.STRING));
         return attributes;
     }
 }

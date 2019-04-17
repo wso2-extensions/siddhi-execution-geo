@@ -91,6 +91,8 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
     private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
             "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
 
+    private List<Attribute> attributes = new ArrayList<Attribute>(2);
+
     @Override
     protected Object[] process(Object[] data) {
         throw new IllegalStateException("geocoordinate cannot execute for single data ");
@@ -120,6 +122,8 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
                     "geo:geocoordinate(ip) function, required " + Attribute.Type.STRING + ", but found " + attributeType
                     .toString());
         }
+        attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
+        attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
         return null;
     }
 
@@ -157,9 +161,6 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
 
     @Override
     public List<Attribute> getReturnAttributes() {
-        List<Attribute> attributes = new ArrayList<Attribute>(2);
-        attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
-        attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
         return attributes;
     }
 }
