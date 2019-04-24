@@ -18,25 +18,26 @@
 
 package org.wso2.extension.siddhi.execution.geo;
 
+import io.siddhi.annotation.Example;
+import io.siddhi.annotation.Extension;
+import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ReturnAttribute;
+import io.siddhi.annotation.util.DataType;
+import io.siddhi.core.config.SiddhiQueryContext;
+import io.siddhi.core.executor.ExpressionExecutor;
+import io.siddhi.core.executor.function.FunctionExecutor;
+import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.snapshot.state.State;
+import io.siddhi.core.util.snapshot.state.StateFactory;
+import io.siddhi.query.api.definition.Attribute;
+import io.siddhi.query.api.exception.SiddhiAppValidationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.extension.siddhi.execution.geo.api.GeoLocationResolver;
 import org.wso2.extension.siddhi.execution.geo.api.Location;
 import org.wso2.extension.siddhi.execution.geo.internal.LRUCacheStore;
 import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
-import org.wso2.siddhi.annotation.Example;
-import org.wso2.siddhi.annotation.Extension;
-import org.wso2.siddhi.annotation.Parameter;
-import org.wso2.siddhi.annotation.ReturnAttribute;
-import org.wso2.siddhi.annotation.util.DataType;
-import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.executor.ExpressionExecutor;
-import org.wso2.siddhi.core.executor.function.FunctionExecutor;
-import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.query.api.definition.Attribute;
-import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -62,7 +63,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
                         "insert into OutputStream;",
                 description = "This query returns the country corresponding to the given IP address.")
 )
-public class GetCountryResolverFunction extends FunctionExecutor {
+public class GetCountryResolverFunction extends FunctionExecutor<State> {
     private static final Log log = LogFactory.getLog(GetCountryResolverFunction.class);
     private static final String CACHE_SIZE_KEY = "cacheSize";
     private static final String IS_CACHE_ENABLED = "isCacheEnabled";
@@ -82,11 +83,11 @@ public class GetCountryResolverFunction extends FunctionExecutor {
      *
      * @param attributeExpressionExecutors are the executors of each attributes in the Function
      * @param configReader                 this hold the {@link FunctionExecutor} extensions configuration reader.
-     * @param siddhiAppContext             Siddhi app runtime context
+     * @param siddhiQueryContext           current siddhi query context
      */
     @Override
-    protected void init(ExpressionExecutor[] attributeExpressionExecutors, ConfigReader configReader,
-                        SiddhiAppContext siddhiAppContext) {
+    protected StateFactory<State> init(ExpressionExecutor[] attributeExpressionExecutors, ConfigReader configReader,
+                                       SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 1) {
             throw new SiddhiAppValidationException("Invalid no of arguments passed to geo:getCountry() function, " +
                     "required 1, but found " + attributeExpressionExecutors.length);
@@ -104,7 +105,7 @@ public class GetCountryResolverFunction extends FunctionExecutor {
                 initializeExtensionConfigs(configReader);
             }
         }
-
+        return null;
     }
 
     /**
@@ -115,7 +116,7 @@ public class GetCountryResolverFunction extends FunctionExecutor {
      * @return the Function result
      */
     @Override
-    protected Object execute(Object[] data) {
+    protected Object execute(Object[] data, State state) {
         return null;
     }
 
@@ -128,7 +129,7 @@ public class GetCountryResolverFunction extends FunctionExecutor {
      * @return the Function result
      */
     @Override
-    protected Object execute(Object data) {
+    protected Object execute(Object data, State state) {
         Location location = null;
         String ip = data.toString();
         if (isCacheEnabled) {
@@ -153,29 +154,6 @@ public class GetCountryResolverFunction extends FunctionExecutor {
     @Override
     public Attribute.Type getReturnType() {
         return Attribute.Type.STRING;
-    }
-
-    /**
-     * Used to collect the serializable state of the processing element, that need to be
-     * persisted for reconstructing the element to the same state on a different point of time
-     *
-     * @return stateful objects of the processing element as an map
-     */
-    @Override
-    public Map<String, Object> currentState() {
-        return null;
-    }
-
-    /**
-     * Used to restore serialized state of the processing element, for reconstructing
-     * the element to the same state as if was on a previous point of time.
-     *
-     * @param state the stateful objects of the processing element as a map.
-     *              This is the same map that is created upon calling currentState() method.
-     */
-    @Override
-    public void restoreState(Map<String, Object> state) {
-
     }
 
     private void initializeExtensionConfigs(ConfigReader configReader) throws SiddhiAppValidationException {

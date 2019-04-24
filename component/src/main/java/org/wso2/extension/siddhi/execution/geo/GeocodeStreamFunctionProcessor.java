@@ -23,26 +23,26 @@ import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderRequest;
 import com.google.code.geocoder.model.GeocoderStatus;
+import io.siddhi.annotation.Example;
+import io.siddhi.annotation.Extension;
+import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ReturnAttribute;
+import io.siddhi.annotation.util.DataType;
+import io.siddhi.core.config.SiddhiQueryContext;
+import io.siddhi.core.exception.SiddhiAppCreationException;
+import io.siddhi.core.exception.SiddhiAppRuntimeException;
+import io.siddhi.core.executor.ExpressionExecutor;
+import io.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
+import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.snapshot.state.State;
+import io.siddhi.core.util.snapshot.state.StateFactory;
+import io.siddhi.query.api.definition.AbstractDefinition;
+import io.siddhi.query.api.definition.Attribute;
 import org.apache.log4j.Logger;
-import org.wso2.siddhi.annotation.Example;
-import org.wso2.siddhi.annotation.Extension;
-import org.wso2.siddhi.annotation.Parameter;
-import org.wso2.siddhi.annotation.ReturnAttribute;
-import org.wso2.siddhi.annotation.util.DataType;
-import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
-import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
-import org.wso2.siddhi.core.executor.ExpressionExecutor;
-import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
-import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.query.api.definition.AbstractDefinition;
-import org.wso2.siddhi.query.api.definition.Attribute;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This extension transforms a location into its geo-coordinates and formatted
@@ -79,13 +79,14 @@ import java.util.Map;
                 description = "This query returns the longitude and latitude of the given location with the location" +
                         " details. The expected results are 48.8588871d, 2.2944861d, \"5 Avenue Anatole France," +
                         " 75007 Paris, France\"."
-                )
+        )
 )
-public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
+public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor<State> {
 
     private static final Logger LOGGER = Logger.getLogger(GeocodeStreamFunctionProcessor.class);
     private final Geocoder geocoder = new Geocoder();
     private boolean debugModeOn;
+    private ArrayList<Attribute> attributes = new ArrayList<Attribute>(6);
 
     /**
      * The process method of the StreamFunction, used when more then one function parameters are provided
@@ -141,29 +142,30 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
         return new Object[]{formattedAddress, latitude, longitude};
     }
 
-
     /**
      * The init method of the StreamProcessor, this method will be called before other methods
      *
-     * @param inputDefinition              the incoming stream definition
-     * @param attributeExpressionExecutors the executors of each function parameters
-     * @param executionPlanContext         the context of the execution plan
+     * @param abstractDefinition              the incoming stream definition
+     * @param attributeExpressionExecutors    the executors of each function parameters
+     * @param outputExpectsExpiredEvents      whether output can be expired event
+     * @param siddhiQueryContext              siddhi query context
+     * @param configReader                    this hold the stream Processor configuration reader.
      * @return the additional output attributes introduced by the function
      */
     @Override
-    protected List<Attribute> init(AbstractDefinition inputDefinition,
-                                   ExpressionExecutor[] attributeExpressionExecutors,
-                                   ConfigReader configReader,
-                                   SiddhiAppContext executionPlanContext) {
+    protected StateFactory<State> init(AbstractDefinition abstractDefinition,
+                                                ExpressionExecutor[] attributeExpressionExecutors,
+                                                ConfigReader configReader,
+                                                boolean outputExpectsExpiredEvents,
+                                                SiddhiQueryContext siddhiQueryContext) {
         debugModeOn = LOGGER.isDebugEnabled();
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
             throw new SiddhiAppCreationException("First parameter should be of type string");
         }
-        ArrayList<Attribute> attributes = new ArrayList<Attribute>(6);
         attributes.add(new Attribute("formattedAddress", Attribute.Type.STRING));
         attributes.add(new Attribute("latitude", Attribute.Type.DOUBLE));
         attributes.add(new Attribute("longitude", Attribute.Type.DOUBLE));
-        return attributes;
+        return null;
     }
 
     /**
@@ -187,28 +189,8 @@ public class GeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
 
     }
 
-    /**
-     * Used to collect the serializable state of the processing element, that need to be
-     * persisted for the reconstructing the element to the same state on a different point of time
-     *
-     * @return stateful objects of the processing element as an array
-     */
     @Override
-    public Map<String, Object> currentState() {
-        return new HashMap<String, Object>();
+    public List<Attribute> getReturnAttributes() {
+        return attributes;
     }
-
-    /**
-     * Used to restore serialized state of the processing element, for reconstructing
-     * the element to the same state as if was on a previous point of time.
-     *
-     * @param state the stateful objects of the element as an array on
-     *              the same order provided by currentState().
-     */
-    @Override
-    public void restoreState(Map<String, Object> state) {
-
-    }
-
-
 }

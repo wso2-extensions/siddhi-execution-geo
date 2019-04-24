@@ -25,27 +25,27 @@ import com.google.code.geocoder.model.GeocoderAddressComponent;
 import com.google.code.geocoder.model.GeocoderRequest;
 import com.google.code.geocoder.model.GeocoderStatus;
 import com.google.code.geocoder.model.LatLng;
+import io.siddhi.annotation.Example;
+import io.siddhi.annotation.Extension;
+import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.util.DataType;
+import io.siddhi.core.config.SiddhiQueryContext;
+import io.siddhi.core.exception.SiddhiAppCreationException;
+import io.siddhi.core.exception.SiddhiAppRuntimeException;
+import io.siddhi.core.executor.ExpressionExecutor;
+import io.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
+import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.snapshot.state.State;
+import io.siddhi.core.util.snapshot.state.StateFactory;
+import io.siddhi.query.api.definition.AbstractDefinition;
+import io.siddhi.query.api.definition.Attribute;
+import io.siddhi.query.api.exception.SiddhiAppValidationException;
 import org.apache.log4j.Logger;
-import org.wso2.siddhi.annotation.Example;
-import org.wso2.siddhi.annotation.Extension;
-import org.wso2.siddhi.annotation.Parameter;
-import org.wso2.siddhi.annotation.util.DataType;
-import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
-import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
-import org.wso2.siddhi.core.executor.ExpressionExecutor;
-import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
-import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.query.api.definition.AbstractDefinition;
-import org.wso2.siddhi.query.api.definition.Attribute;
-import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This extension transforms a latitude and longitude coordinates into precise address information.
@@ -87,11 +87,12 @@ import java.util.Map;
                         "Sri Lanka\".")
 
 )
-public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcessor {
+public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcessor<State> {
 
     private static final Logger LOGGER = Logger.getLogger(ReverseGeocodeStreamFunctionProcessor.class);
     private final Geocoder geocoder = new Geocoder();
     private boolean debugModeOn;
+    private ArrayList<Attribute> attributes = new ArrayList<Attribute>(9);
 
     /**
      * The process method of the StreamFunction, used when more then one function parameters are provided
@@ -190,16 +191,18 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
     /**
      * The init method of the StreamProcessor, this method will be called before other methods
      *
-     * @param inputDefinition              the incoming stream definition
-     * @param attributeExpressionExecutors the executors of each function parameters
-     * @param executionPlanContext         the context of the execution plan
+     * @param abstractDefinition              the incoming stream definition
+     * @param attributeExpressionExecutors    the executors of each function parameters
+     * @param outputExpectsExpiredEvents      whether output can be expired event
+     * @param siddhiQueryContext              siddhi query context
+     * @param configReader                    this hold the stream Processor configuration reader.
      * @return the additional output attributes introduced by the function
      */
     @Override
-    protected List<Attribute> init(AbstractDefinition inputDefinition,
-                                   ExpressionExecutor[] attributeExpressionExecutors,
-                                   ConfigReader configReader,
-                                   SiddhiAppContext executionPlanContext) {
+    protected StateFactory<State> init(AbstractDefinition abstractDefinition,
+                                                ExpressionExecutor[] attributeExpressionExecutors,
+                                                ConfigReader configReader, boolean outputExpectsExpiredEvents,
+                                                SiddhiQueryContext siddhiQueryContext) {
         debugModeOn = LOGGER.isDebugEnabled();
         if (attributeExpressionExecutors.length != 2) {
             throw new SiddhiAppValidationException("Invalid no of arguments " +
@@ -210,7 +213,6 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
                 attributeExpressionExecutors[1].getReturnType() != Attribute.Type.DOUBLE) {
             throw new SiddhiAppCreationException("Both input parameters should be of type double");
         }
-        ArrayList<Attribute> attributes = new ArrayList<Attribute>(9);
         attributes.add(new Attribute("streetNumber", Attribute.Type.STRING));
         attributes.add(new Attribute("neighborhood", Attribute.Type.STRING));
         attributes.add(new Attribute("route", Attribute.Type.STRING));
@@ -220,7 +222,7 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
         attributes.add(new Attribute("countryCode", Attribute.Type.STRING));
         attributes.add(new Attribute("postalCode", Attribute.Type.STRING));
         attributes.add(new Attribute("formattedAddress", Attribute.Type.STRING));
-        return attributes;
+        return null;
     }
 
     /**
@@ -244,29 +246,8 @@ public class ReverseGeocodeStreamFunctionProcessor extends StreamFunctionProcess
 
     }
 
-    /**
-     * Used to collect the serializable state of the processing element, that need to be
-     * persisted for the reconstructing the element to the same state on a different point of time
-     *
-     * @return stateful objects of the processing element as an array
-     */
     @Override
-    public Map<String, Object> currentState() {
-        return new HashMap<String, Object>();
+    public List<Attribute> getReturnAttributes() {
+        return attributes;
     }
-
-    /**
-     * Used to restore serialized state of the processing element, for reconstructing
-     * the element to the same state as if was on a previous point of time.
-     *
-     * @param state the stateful objects of the element as an array on
-     *              the same order provided by currentState().
-     */
-
-    @Override
-    public void restoreState(Map<String, Object> state) {
-
-    }
-
-
 }

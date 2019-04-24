@@ -18,8 +18,8 @@
 
 package org.wso2.extension.siddhi.execution.geo.api;
 
+import io.siddhi.core.util.config.ConfigReader;
 import org.wso2.extension.siddhi.execution.geo.internal.exception.GeoLocationResolverException;
-import org.wso2.siddhi.core.util.config.ConfigReader;
 
 /**
  * Interface for the GeoLocation based on the ip address.
