@@ -59,7 +59,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         examples = @Example(
                 syntax = "define stream IpStream(ip string);\n" +
                         "from IpStream\n" +
-                        "select geo:getCity(ip) as city\n" +
+                        "select geo:findCityFromIP(ip) as city\n" +
                         "insert into outputStream;",
                 description = "This query returns the corresponding city of the given IP address.")
 )
