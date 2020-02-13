@@ -67,22 +67,67 @@ In order to use the functions supported by this extension, import the latest geo
 
 3. Download the `geoip-2-csv-converter` that is compatible with your operating system from the [maxmind/geoip2-csv-converter github repository](https://github.com/maxmind/geoip2-csv-converter/releases).
 
-4. Prepare the database entries as follows:
+4. Download and install a database type of your choice. Then create the required database and tables as follows:
+
+       !!!info
+           This example uses MySQL.
+
+      1. Create a database named `GEO_LOCATION_DATA`.
+
+      2. To create the required tables in the database, execute one of the following scripts.
+
+          - [mssql.sql](../resources/mssql.sql)
+          - [mysql.sql](../resources/mysql.sql)
+          - [oracle.sql](../resources/oracle.sql)
+
+         It creates two tables named `BLOCKS` and `LOCATION`.
+
+           !!! info
+               - In this example, `mysql.sql` database script is executed.
+               - To execute the database script, you can use [MySQL Workbench](https://dev.mysql.com/downloads/workbench/). For detailed instructions to run the database script, see [MySQL Documentation - The Workbench Scripting Shell](https://dev.mysql.com/doc/workbench/en/wb-scripting-shell.html).
+
+      3. Download a JDBC provider depending on the database you are using (MySQL, in this example), and copy it to the `<SI_HOME>/lib` directory.
+
+      4. Configure the datasource for the Geo location in the `<SI_HOME>/conf/server/deployment.yaml` file as follows.
+
+            ```
+                - name: GEO_LOCATION_DATA
+                  description: "The data source used for geo location database"
+                  jndiConfig:
+                    name: jdbc/GEO_LOCATION_DATA
+                  definition:
+                    type: RDBMS
+                    configuration:
+                      jdbcUrl: 'jdbc:h2:${sys:carbon.home}/wso2/worker/database/GEO_LOCATION_DATA;AUTO_SERVER=TRUE'
+                      username: wso2carbon
+                      password: wso2carbon
+                      driverClassName: org.h2.Driver
+                      maxPoolSize: 50
+                      idleTimeout: 60000
+                      validationTimeout: 30000
+                      isAutoCommit: false
+
+            ```
+
+
+5. Prepare the database entries as follows:
 
     1. Unzip the latest CSV file and the `geoip-2-csv-converter` that you downloaded in the steps above.
 
     2. Run the [update-geolocation-data.sh](https://docs.wso2.com/download/attachments/97564367/update-geolocation-data.sh?version=2&modificationDate=1580908358000&api=v2) file by issuing the following command:
+
         `sh update-geolocation-data.sh`
 
-    3. Enter the path to the extracted `GeoLite2-City-Blocks-IPv4` directory that you downloaded first as the response for the `Enter path to GeoLite2-City-Blocks-IPv4 directory:` prompt (e.g., `/<PATH_TO>/GeoLite2-City-CSV_20171107`).
+    3. Enter the path to the extracted `GeoLite2-City-Blocks-IPv4` directory that you downloaded as the response for the `Enter path to GeoLite2-City-Blocks-IPv4 directory:` prompt (e.g., `/<PATH_TO>/GeoLite2-City-CSV_20171107`).
 
     4. Enter the path to the `geoip2-csv-converter` directory as the response for the `Enter path to geoip2-csv-converter home directory:` prompt (e.g., `/<PATH_TO>/geoip2-csv-converter-v1.0.0`).
 
   Once the script is executed, you can find the `final.csv` file inside your current directory.
 
-5. Import the data as follows:
 
-    1. To import the `final.csv` file you generated into the `BLOCKS` table, issue the following command after logging into the MySQL console.
+6. Import the data as follows:
+
+    1. To import the `final.csv` file (which you previously generated) into the `BLOCKS` table, issue the following command after logging into the MySQL console.
 
         ```
         load data local infile '[PATH_TO_FINAL.CSV]/final.csv' into table BLOCKS
@@ -101,6 +146,10 @@ In order to use the functions supported by this extension, import the latest geo
          lines terminated by '\n'
          (geoname_id, locale_code, continent_code, continent_name, country_iso_code, country_name, subdivision_1_iso_code, subdivision_1_name, subdivision_2_iso_code, subdivision_2_name, city_name, metro_code, time_zone);
         ```
+
+7. Restart the Streaming Integrator. You have now updated the Geo Location Data Set.
+
+
 
 ## How to Contribute
  
