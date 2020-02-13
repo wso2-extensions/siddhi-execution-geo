@@ -76,9 +76,11 @@ In order to use the functions supported by this extension, import the latest geo
 
       2. To create the required tables in the database, execute one of the following scripts.
 
+          - [db2.sql](../resources/db2.sql)
           - [mssql.sql](../resources/mssql.sql)
           - [mysql.sql](../resources/mysql.sql)
           - [oracle.sql](../resources/oracle.sql)
+          - [postgresql.sql](../resources/postgresql.sql)
 
          It creates two tables named `BLOCKS` and `LOCATION`.
 
