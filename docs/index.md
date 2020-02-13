@@ -11,30 +11,9 @@ Find some useful links below:
 
 ## Latest API Docs 
 
-Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.0">5.0.0</a>.
+Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1">5.0.1</a>.
 
 ## How to use 
-
-**Prerequisites**
-
-You should create a datasource with the name `GEO_LOCATION_DATA` similar to the one that is shown below, as mentioned [here](https://siddhi.io/en/v5.0/docs/config-guide/#configuring-databases).
-
-```$xslt
-- name: GEO_LOCATION_DATA
-    description: The datasource used in Siddhi-execution-geo
-    definition:
-      type: RDBMS
-      configuration:
-        jdbcUrl: 'jdbc:h2:${sys:carbon.home}/wso2/${sys:wso2.runtime}/database/GEO_LOCATION_DATA;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000'
-        username: wso2carbon
-        password: wso2carbon
-        driverClassName: org.h2.Driver
-        maxPoolSize: 10
-        idleTimeout: 60000
-        connectionTestQuery: SELECT 1
-        validationTimeout: 30000
-        isAutoCommit: false
-```
 
 **Using the extension in <a target="_blank" href="https://github.com/wso2/product-sp">WSO2 Stream Processor</a>**
 
@@ -71,11 +50,11 @@ directory.
 
 ## Features
 
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.0/#findcityfromip-function">findCityFromIP</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This function returns the city that is related to the given IP address.</p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.0/#findcountryfromip-function">findCountryFromIP</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This function returns the country that is related to the given IP address.</p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.0/#geocode-stream-function">geocode</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a>*<br><div style="padding-left: 1em;"><p>The geo code stream function uses basic details relating to a location (e.g., street name, number,etc.) as the input and returns the longitude, latitude, and the address of that location. </p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.0/#geocoordinate-stream-function">geocoordinate</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a>*<br><div style="padding-left: 1em;"><p>The geocoordinate stream function returns the longitude and latitude values of a location relating to a given IPV4 or IPV6 address.</p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.0/#reversegeocode-stream-function">reversegeocode</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a>*<br><div style="padding-left: 1em;"><p>This extension transforms pairs of latitude and longitude coordinates into precise address information. The output contains string properties including the 'streetNumber', 'neighborhood', 'route', 'administrativeAreaLevelTwo', 'administrativeAreaLevelOne', 'country', 'countryCode', 'postalCode', and the 'formattedAddress' in the given order. However, this information is not available for all the geo coordinates. For example, if the latitude and longitude represent a place in a forest, only the high level information such as the country is returned. In such scenarios, "N/A" is returned as the value for return attributes of which the values cannot be derived.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1/#findcityfromip-function">findCityFromIP</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This function returns the city that is related to the given IP address.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1/#findcountryfromip-function">findCountryFromIP</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This function returns the country that is related to the given IP address.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1/#geocode-stream-function">geocode</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a>*<br><div style="padding-left: 1em;"><p>The geo code stream function uses basic details relating to a location (e.g., street name, number,etc.) as the input and returns the longitude, latitude, and the address of that location. </p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1/#geocoordinate-stream-function">geocoordinate</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a>*<br><div style="padding-left: 1em;"><p>The geocoordinate stream function returns the longitude and latitude values of a location relating to a given IPV4 or IPV6 address.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1/#reversegeocode-stream-function">reversegeocode</a> *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a>*<br><div style="padding-left: 1em;"><p>This extension transforms pairs of latitude and longitude coordinates into precise address information. The output contains string properties including the 'streetNumber', 'neighborhood', 'route', 'administrativeAreaLevelTwo', 'administrativeAreaLevelOne', 'country', 'countryCode', 'postalCode', and the 'formattedAddress' in the given order. However, this information is not available for all the geo coordinates. For example, if the latitude and longitude represent a place in a forest, only the high level information such as the country is returned. In such scenarios, "N/A" is returned as the value for return attributes of which the values cannot be derived.</p></div>
 
 ## How to Contribute
  
