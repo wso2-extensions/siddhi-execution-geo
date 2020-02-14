@@ -310,6 +310,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dependencies" title="Dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#how-to-contribute" title="How to Contribute" class="md-nav__link">
     How to Contribute
   </a>
@@ -690,6 +697,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dependencies" title="Dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#how-to-contribute" title="How to Contribute" class="md-nav__link">
     How to Contribute
   </a>
@@ -788,6 +802,115 @@ directory.</p>
 <li><a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1/#geocoordinate-stream-function">geocoordinate</a> <em><a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a></em><br><div style="padding-left: 1em;"><p>The geocoordinate stream function returns the longitude and latitude values of a location relating to a given IPV4 or IPV6 address.</p></div></li>
 <li><a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-geo/api/5.0.1/#reversegeocode-stream-function">reversegeocode</a> <em><a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#stream-function">(Stream Function)</a></em><br><div style="padding-left: 1em;"><p>This extension transforms pairs of latitude and longitude coordinates into precise address information. The output contains string properties including the 'streetNumber', 'neighborhood', 'route', 'administrativeAreaLevelTwo', 'administrativeAreaLevelOne', 'country', 'countryCode', 'postalCode', and the 'formattedAddress' in the given order. However, this information is not available for all the geo coordinates. For example, if the latitude and longitude represent a place in a forest, only the high level information such as the country is returned. In such scenarios, "N/A" is returned as the value for return attributes of which the values cannot be derived.</p></div></li>
 </ul>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<p>In order to use the functions supported by this extension, import the latest geo location data to the <code>LOCATION</code> and <code>BLOCKS</code> tables as follows:</p>
+<ol>
+<li>
+<p>First, create an account in the <a href="https://dev.maxmind.com/geoip/geoip2/geolite2/">Maxmind site</a>.</p>
+</li>
+<li>
+<p>Then log in to the Maxmind site using your newly created credentials via the <a href="https://www.maxmind.com/en/accounts/200820/geoip/downloads">Login Form</a>.</p>
+</li>
+<li>
+<p>Download the <code>geoip-2-csv-converter</code> that is compatible with your operating system from the <a href="https://github.com/maxmind/geoip2-csv-converter/releases">maxmind/geoip2-csv-converter github repository</a>.</p>
+</li>
+<li>
+<p>Download and install a database type of your choice. Then create the required database and tables as follows:</p>
+<p>!!!info
+       This example uses MySQL.</p>
+<ol>
+<li>
+<p>Create a database named <code>GEO_LOCATION_DATA</code>.</p>
+</li>
+<li>
+<p>To create the required tables in the database, execute one of the following scripts.</p>
+<ul>
+<li><a href="../resources/db2.sql">db2.sql</a></li>
+<li><a href="../resources/mssql.sql">mssql.sql</a></li>
+<li><a href="../resources/mysql.sql">mysql.sql</a></li>
+<li><a href="../resources/oracle.sql">oracle.sql</a></li>
+<li><a href="../resources/postgresql.sql">postgresql.sql</a></li>
+</ul>
+<p>It creates two tables named <code>BLOCKS</code> and <code>LOCATION</code>.</p>
+<p>!!! info
+       - In this example, <code>mysql.sql</code> database script is executed.
+       - To execute the database script, you can use <a href="https://dev.mysql.com/downloads/workbench/">MySQL Workbench</a>. For detailed instructions to run the database script, see <a href="https://dev.mysql.com/doc/workbench/en/wb-scripting-shell.html">MySQL Documentation - The Workbench Scripting Shell</a>.</p>
+</li>
+<li>
+<p>Download a JDBC provider depending on the database you are using (MySQL, in this example), and copy it to the <code>&lt;SI_HOME&gt;/lib</code> directory.</p>
+</li>
+<li>
+<p>Configure the datasource for the Geo location in the <code>&lt;SI_HOME&gt;/conf/server/deployment.yaml</code> file as follows.</p>
+<div class="codehilite"><pre><span></span>```
+    - name: GEO_LOCATION_DATA
+      description: &quot;The data source used for geo location database&quot;
+      jndiConfig:
+        name: jdbc/GEO_LOCATION_DATA
+      definition:
+        type: RDBMS
+        configuration:
+          jdbcUrl: &#39;jdbc:h2:${sys:carbon.home}/wso2/worker/database/GEO_LOCATION_DATA;AUTO_SERVER=TRUE&#39;
+          username: wso2carbon
+          password: wso2carbon
+          driverClassName: org.h2.Driver
+          maxPoolSize: 50
+          idleTimeout: 60000
+          validationTimeout: 30000
+          isAutoCommit: false
+
+```
+</pre></div>
+
+
+</li>
+</ol>
+</li>
+<li>
+<p>Prepare the database entries as follows:</p>
+<ol>
+<li>
+<p>Unzip the latest CSV file and the <code>geoip-2-csv-converter</code> that you downloaded in the steps above.</p>
+</li>
+<li>
+<p>Run the <a href="https://docs.wso2.com/download/attachments/97564367/update-geolocation-data.sh?version=2&amp;modificationDate=1580908358000&amp;api=v2">update-geolocation-data.sh</a> file by issuing the following command:</p>
+<p><code>sh update-geolocation-data.sh</code></p>
+</li>
+<li>
+<p>Enter the path to the extracted <code>GeoLite2-City-Blocks-IPv4</code> directory that you downloaded as the response for the <code>Enter path to GeoLite2-City-Blocks-IPv4 directory:</code> prompt (e.g., <code>/&lt;PATH_TO&gt;/GeoLite2-City-CSV_20171107</code>).</p>
+</li>
+<li>
+<p>Enter the path to the <code>geoip2-csv-converter</code> directory as the response for the <code>Enter path to geoip2-csv-converter home directory:</code> prompt (e.g., <code>/&lt;PATH_TO&gt;/geoip2-csv-converter-v1.0.0</code>).</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>Once the script is executed, you can find the <code>final.csv</code> file inside your current directory.</p>
+<ol>
+<li>
+<p>Import the data as follows:</p>
+<ol>
+<li>
+<p>To import the <code>final.csv</code> file (which you previously generated) into the <code>BLOCKS</code> table, issue the following command after logging into the MySQL console.</p>
+<p><code>load data local infile '[PATH_TO_FINAL.CSV]/final.csv' into table BLOCKS
+ fields terminated by ','
+ enclosed by '"'
+ lines terminated by '\n'
+ (network_cidr, network, broadcast, geoname_id, registered_country_geoname_id, represented_country_geoname_id, is_anonymous_proxy, is_satellite_provider, postal_code, latitude, longitude, network_blocks);</code></p>
+</li>
+<li>
+<p>To import the <code>GeoLite2-City-Locations-en.csv</code> file located inside the extracted <code>geoip-2-csv-converter</code> directory (e.g., <code>geoip-2-csv-converterGeoLite2-City-CSV_2017110</code>) into the <code>LOCATION</code> table, issue the following command.</p>
+<p><code>load data local infile '[PATH_TO_GeoLite2-City-Locations-en]/GeoLite2-City-Locations-en.csv' into table LOCATION
+ fields terminated by ','
+ enclosed by '"'
+ lines terminated by '\n'
+ (geoname_id, locale_code, continent_code, continent_name, country_iso_code, country_name, subdivision_1_iso_code, subdivision_1_name, subdivision_2_iso_code, subdivision_2_name, city_name, metro_code, time_zone);</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p>Restart the Streaming Integrator. You have now updated the Geo Location Data Set.</p>
+</li>
+</ol>
 <h2 id="how-to-contribute">How to Contribute<a class="headerlink" href="#how-to-contribute" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
