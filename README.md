@@ -66,7 +66,7 @@ In order to use the functions supported by this extension, import the latest geo
 
 3. Download the `geoip-2-csv-converter` that is compatible with your operating system from the [maxmind/geoip2-csv-converter github repository](https://github.com/maxmind/geoip2-csv-converter/releases).
 
-4. Download and install a database type of your choice. Then create the required database and tables as follows:
+4. Download and install a database type of your choice. Then start it, and create the required database and tables as follows:
 
        !!!info
            This example uses MySQL.
@@ -86,29 +86,6 @@ In order to use the functions supported by this extension, import the latest geo
            !!! info
                - In this example, `mysql.sql` database script is executed.
                - To execute the database script, you can use [MySQL Workbench](https://dev.mysql.com/downloads/workbench/). For detailed instructions to run the database script, see [MySQL Documentation - The Workbench Scripting Shell](https://dev.mysql.com/doc/workbench/en/wb-scripting-shell.html).
-
-      3. Download a JDBC provider depending on the database you are using (MySQL, in this example), and copy it to the `<SI_HOME>/lib` directory.
-
-      4. Configure the datasource for the Geo location in the `<SI_HOME>/conf/server/deployment.yaml` file as follows.
-
-            ```
-                - name: GEO_LOCATION_DATA
-                  description: "The data source used for geo location database"
-                  jndiConfig:
-                    name: jdbc/GEO_LOCATION_DATA
-                  definition:
-                    type: RDBMS
-                    configuration:
-                      jdbcUrl: 'jdbc:h2:${sys:carbon.home}/wso2/worker/database/GEO_LOCATION_DATA;AUTO_SERVER=TRUE'
-                      username: wso2carbon
-                      password: wso2carbon
-                      driverClassName: org.h2.Driver
-                      maxPoolSize: 50
-                      idleTimeout: 60000
-                      validationTimeout: 30000
-                      isAutoCommit: false
-
-            ```
 
 
 5. Prepare the database entries as follows:
