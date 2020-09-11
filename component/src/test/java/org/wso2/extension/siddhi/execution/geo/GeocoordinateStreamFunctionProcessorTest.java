@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2017 WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2018 WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -41,6 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Test case for Geocoordinate Stream Function.
  */
 public class GeocoordinateStreamFunctionProcessorTest {
+
     private static final Logger logger = Logger.getLogger(GeocoordinateStreamFunctionProcessorTest.class);
     private AtomicInteger count = new AtomicInteger(0);
     private volatile boolean eventArrived;
@@ -48,6 +49,7 @@ public class GeocoordinateStreamFunctionProcessorTest {
 
     @BeforeMethod
     public void init() {
+
         count.set(0);
         eventArrived = false;
     }
@@ -59,10 +61,11 @@ public class GeocoordinateStreamFunctionProcessorTest {
      */
     @Test
     public void geocoordinateStreamFunctionProcessorTest1() throws Exception {
+
         logger.info("Test Geocoordinate 1 - Test geocoordinates for given IP");
         Map<String, String> masterConfigs = new HashMap<>();
-        //The key value is a dummy value. You have to get a key value from ipInfoDB
-        //(IpInfoDB : https://www.ipinfodb.com/ )
+        // The key value is a dummy value. You have to get a key value from ipInfoDB
+        // (IpInfoDB : https://www.ipinfodb.com/ )
         masterConfigs.put("geo.geocoordinate.apiurl", "http://api.ipinfodb.com/v3/ip-city/?key=" +
                 "39a2202599d94b2432ff1a075f1a35cfe99cb40982d1181adb2c41b6c947a251&ip=");
         SiddhiManager siddhiManager = new SiddhiManager();
@@ -76,8 +79,7 @@ public class GeocoordinateStreamFunctionProcessorTest {
                 + "select longitude, latitude "
                 + "insert into outputStream;"
         );
-        SiddhiAppRuntime siddhiAppRuntime = siddhiManager
-                .createSiddhiAppRuntime(inStreamDefinition + query);
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
         long end = System.currentTimeMillis();
         logger.info(String.format("Time to add query: [%f sec]", ((end - start) / 1000f)));
 
@@ -100,7 +102,6 @@ public class GeocoordinateStreamFunctionProcessorTest {
                             AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
                         }
                         eventArrived = true;
-
                     }
                     if (count.get() == 2) {
                         if ((Double) event.getData(0) != -1.0) {
@@ -108,7 +109,6 @@ public class GeocoordinateStreamFunctionProcessorTest {
                             AssertJUnit.assertEquals((Double) expected[1], (Double) event.getData(1), 1e-2);
                         }
                         eventArrived = true;
-
                     }
                     eventCount++;
                 }
@@ -124,12 +124,12 @@ public class GeocoordinateStreamFunctionProcessorTest {
         SiddhiTestHelper.waitForEvents(100, 2, count, 60000);
         AssertJUnit.assertEquals(2, count.get());
         AssertJUnit.assertTrue(eventArrived);
-
     }
 
     @Test(expectedExceptions = SiddhiAppCreationException.class, dependsOnMethods =
             "geocoordinateStreamFunctionProcessorTest1")
     public void geocoordinateStreamFunctionProcessorTest2() throws Exception {
+
         logger.info("Test Geocoordinate 2 - Invalid number of input parameters");
 
         SiddhiManager siddhiManager = new SiddhiManager();
@@ -144,6 +144,7 @@ public class GeocoordinateStreamFunctionProcessorTest {
     @Test(expectedExceptions = SiddhiAppCreationException.class, dependsOnMethods =
             "geocoordinateStreamFunctionProcessorTest2")
     public void geocoordinateStreamFunctionProcessorTest3() throws Exception {
+
         logger.info("Test Geocoordinate 3 - Invalid type of input parameters");
 
         SiddhiManager siddhiManager = new SiddhiManager();
@@ -155,3 +156,4 @@ public class GeocoordinateStreamFunctionProcessorTest {
                         + "insert into outputStream");
     }
 }
+

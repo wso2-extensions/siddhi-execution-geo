@@ -37,6 +37,7 @@ import java.nio.charset.StandardCharsets;
  * The default implementation of the GeoCoordinateResolver interface. This implementation is based on "ipInfoDB" API.
  */
 public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
+
     private static final Logger LOGGER = Logger.getLogger(APIBasedGeoCoordinateResolver.class);
     private String apikey;
     private URL url;
@@ -44,6 +45,7 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
 
     @Override
     public void init(ConfigReader configReader) throws GeoLocationResolverException {
+
         apikey = configReader.readConfig("apiurl", "");
         if (StringUtils.isNullOrEmpty(apikey)) {
             throw new GeoLocationResolverException("Error in reading the configuration of apiurl");
@@ -52,9 +54,11 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
 
     @Override
     public GeoCoordinate getGeoCoordinateInfo(String ip) {
+
         double latitude;
         double longitude;
         ip = ip.trim();
+
         try {
             if (Utilities.isIpAddress(ip)) {
                 url = new URL(apikey + ip);
@@ -63,10 +67,12 @@ public class APIBasedGeoCoordinateResolver implements GeoCoordinateResolver {
             }
         } catch (MalformedURLException e) {
             throw new SiddhiAppRuntimeException("Error in connecting to the API " +
-                    "with the given key value of the API");
+                    "with the given key value of the API", e);
         }
+
         try (InputStreamReader inputStreamReader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+
             String ipInformation;
             while ((ipInformation = bufferedReader.readLine()) != null) {
                 locationDetails = ipInformation.split(";");
