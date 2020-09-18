@@ -23,6 +23,7 @@ import org.wso2.extension.siddhi.execution.geo.api.GeoCoordinateResolver;
  * A singleton class to initialize extension.
  */
 public class GeoCoordinateResolverHolder {
+
     private static GeoCoordinateResolverHolder geoCoordinateResolverHolder = new GeoCoordinateResolverHolder();
     private GeoCoordinateResolver geoCoordinateResolver;
 
@@ -31,15 +32,16 @@ public class GeoCoordinateResolverHolder {
     }
 
     public static GeoCoordinateResolverHolder getGeoCoordinationResolverHolderInstance() {
+
         return geoCoordinateResolverHolder;
     }
 
     public GeoCoordinateResolver getGeoCoordinateResolver(String geoResolverImplClassName)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
         if (geoCoordinateResolver == null) {
             synchronized (this) {
-                geoCoordinateResolver = (GeoCoordinateResolver) Class.forName
-                        (geoResolverImplClassName).newInstance();
+                geoCoordinateResolver = (GeoCoordinateResolver) Class.forName(geoResolverImplClassName).newInstance();
             }
         }
         return geoCoordinateResolver;

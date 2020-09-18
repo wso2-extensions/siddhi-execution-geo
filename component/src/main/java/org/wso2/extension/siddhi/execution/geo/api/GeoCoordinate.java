@@ -21,19 +21,23 @@ package org.wso2.extension.siddhi.execution.geo.api;
  * This is the bean class which represents the GeoCoordinate.
  */
 public class GeoCoordinate {
+
     private final double latitude;
     private final double longitude;
 
     public GeoCoordinate(double latitude, double longitude) {
+
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
     public Double getLatitude() {
+
         return latitude;
     }
 
     public Double getLongitude() {
+
         return longitude;
     }
 }

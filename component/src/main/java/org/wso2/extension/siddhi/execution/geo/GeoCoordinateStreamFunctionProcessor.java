@@ -87,6 +87,7 @@ import java.util.List;
                         "The results for the geocoordinate(95.31.18.119) are 55.7522 and 37.6156.")
 )
 public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcessor<State> {
+
     private static GeoCoordinateResolver geoCoordinateResolverImpl;
     private static final String DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME =
             "org.wso2.extension.siddhi.execution.geo.internal.impl.APIBasedGeoCoordinateResolver";
@@ -95,11 +96,13 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
 
     @Override
     protected Object[] process(Object[] data) {
+
         throw new IllegalStateException("geocoordinate cannot execute for single data ");
     }
 
     @Override
     protected Object[] process(Object data) {
+
         String ip = data.toString();
         GeoCoordinate geoCoordinate = geoCoordinateResolverImpl.getGeoCoordinateInfo(ip);
         return new Object[]{geoCoordinate.getLatitude(), geoCoordinate.getLongitude()};
@@ -111,6 +114,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
                                        ConfigReader configReader,
                                        boolean outputExpectsExpiredEvents,
                                        SiddhiQueryContext siddhiQueryContext) {
+
         initializeExtensionConfigs(configReader);
         if (attributeExpressionExecutors.length != 1) {
             throw new SiddhiAppValidationException("Invalid no of arguments passed to geo:geocoordinate(ip) " +
@@ -139,6 +143,7 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
 
     private void initializeExtensionConfigs(ConfigReader configReader)
             throws SiddhiAppCreationException, SiddhiAppValidationException {
+
         String geoResolverImplClassName = configReader.readConfig("geoCoordinateResolverClass",
                 DEFAULT_GEOCOORDINATE_RESOLVER_CLASSNAME);
         try {
@@ -146,21 +151,22 @@ public class GeoCoordinateStreamFunctionProcessor extends StreamFunctionProcesso
                     getGeoCoordinationResolverHolderInstance().getGeoCoordinateResolver(geoResolverImplClassName);
             geoCoordinateResolverImpl.init(configReader);
         } catch (InstantiationException e) {
-            throw new SiddhiAppValidationException("Cannot instantiate GeoCoordinateResolverHolder holder class '"
-                    + geoCoordinateResolverImpl , e);
+            throw new SiddhiAppValidationException("Cannot instantiate GeoCoordinateResolverHolder holder class: "
+                    + geoCoordinateResolverImpl, e);
         } catch (IllegalAccessException e) {
-            throw new SiddhiAppValidationException("Cannot access GeoCoordinateResolverHolder holder class '"
-                    + geoCoordinateResolverImpl , e);
+            throw new SiddhiAppValidationException("Cannot access GeoCoordinateResolverHolder holder class: "
+                    + geoCoordinateResolverImpl, e);
         } catch (ClassNotFoundException e) {
-            throw new SiddhiAppValidationException("Cannot find GeoCoordinateResolverHolder holder class '"
-                    + geoCoordinateResolverImpl , e);
+            throw new SiddhiAppValidationException("Cannot find GeoCoordinateResolverHolder holder class: "
+                    + geoCoordinateResolverImpl, e);
         } catch (GeoLocationResolverException e) {
-            throw new SiddhiAppCreationException("Configuration error in geocoordinate stream function" , e);
+            throw new SiddhiAppCreationException("Configuration error in geocoordinate stream function", e);
         }
     }
 
     @Override
     public List<Attribute> getReturnAttributes() {
+
         return attributes;
     }
 }

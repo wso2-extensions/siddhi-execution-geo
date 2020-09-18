@@ -37,16 +37,14 @@ public class Utilities {
                     "^((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)$");
 
     /**
-     * Determine if the given string is a valid IPv4 or IPv6 address.  This method
+     * Determine if the given string is a valid IPv4 or IPv6 address. This method
      * uses pattern matching to see if the given string could be a valid IP address.
      *
-     * @param ipAddress A string that is to be examined to verify whether or not
-     *                  it could be a valid IP address.
-     * @return true if the string is a value that is a valid IP address,
-     * false otherwise.
+     * @param ipAddress A string that is to be examined to verify whether or not it could be a valid IP address.
+     * @return true if the string is a value that is a valid IP address, false otherwise.
      */
-
     public static boolean isIpAddress(String ipAddress) {
+
         return (IPV4_PATTERN.matcher(ipAddress).matches() ||
                 IPV6_STD_PATTERN.matcher(ipAddress).matches() ||
                 IPV6_HEX_COMPRESSED_PATTERN.matcher(ipAddress).matches());
