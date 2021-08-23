@@ -62,7 +62,7 @@ public class RDBMSGeoLocationResolver {
     private static final String SQL_INSERT_LOCATION_INTO_TABLE = "INSERT INTO IP_LOCATION (ip,country_name," +
             "city_name) VALUES (?,?,?)";
     private static final String SQL_SELECT_LOCATION_FROM_LONG_VALUE_OF_IP = "SELECT loc.country_name,loc" +
-            ".subdivision_1_name FROM BLOCKS block , LOCATION loc WHERE block.network_blocks = ? AND ? BETWEEN block" +
+            ".subdivision_1_name FROM BLOCKS block , LOCATION loc WHERE ? BETWEEN block" +
             ".network AND block.broadcast AND block.geoname_id=loc.geoname_id";
     private static final String SQL_SELECT_LOCATION_FROM_CIDR_OF_IP = "SELECT loc.country_name,loc.subdivision_1_name" +
             " FROM BLOCKS block , LOCATION loc WHERE block.network_cidr = ? AND block.geoname_id=loc.geoname_id";
@@ -156,9 +156,7 @@ public class RDBMSGeoLocationResolver {
         try {
             statement = connection.prepareStatement(SQL_SELECT_LOCATION_FROM_LONG_VALUE_OF_IP);
             if (ipAddress != null && ipAddress.split("\\.").length >= 4) {
-                statement.setString(1, ipAddress.substring(0, ipAddress.substring(0, ipAddress.lastIndexOf("."))
-                        .lastIndexOf(".")));
-                statement.setLong(2, getIpV4ToLong(ipAddress));
+                statement.setLong(1, getIpV4ToLong(ipAddress));
                 resultSet = statement.executeQuery();
                 if (resultSet.next()) {
                     location = new Location(resultSet.getString(COUNTRY_NAME), resultSet.getString(SUBDIVISION_1_NAME),
