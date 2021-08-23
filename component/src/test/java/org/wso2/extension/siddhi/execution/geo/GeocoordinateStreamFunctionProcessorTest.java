@@ -87,7 +87,7 @@ public class GeocoordinateStreamFunctionProcessorTest {
         data.add(new Object[]{"2a01:7e00::f03c:91ff:fe44:6903"});
         data.add(new Object[]{"95.31.18.119"});
         final List<Object[]> expectedResult = new ArrayList<Object[]>();
-        expectedResult.add(new Object[]{0.60682, 51.2468d});
+        expectedResult.add(new Object[]{-0.12574, 51.50853d});
         expectedResult.add(new Object[]{37.6156d, 55.7522d});
         siddhiAppRuntime.addCallback("query", new QueryCallback() {
             @Override
