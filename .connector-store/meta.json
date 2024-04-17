@@ -10,5 +10,10 @@
         "siddhi-execution",
         "geo"
     ],
-    "releases": []
+    "releases": [
+        {
+            "tagName": "4.1.1",
+            "products": []
+        }
+    ]
 }
